@@ -1,0 +1,7 @@
+- documentations 说明文档
+  - [business-analysis.md](business-analysis.md) 业务分析文档
+  - [directory-structure.md](directory-structure.md) 文件目录结构说明文档(现在看的这个)
+  - [todo.md](todo.md) 待做事项文档
+- src 源码
+- .gitignore git忽略
+- [README.md](../README.md) 项目介绍文档
