@@ -6,6 +6,7 @@ function createUser(data) {
   u.account = data.account;
   u.pwd = data.pwd;
   u.name = data.username;
+  u.img = data.img;
   u.token = data.token;
   return u;
 }
@@ -31,7 +32,7 @@ export async function getAllUser(): Promise<User[]> {
 }
 
 // 获取user
-export async function getUser(account): Promise<User> {
+export async function getUser(account: string): Promise<User> {
   let conn = getConnection();
   let sql = "select * from user where account = ?";
   let arr = [account];
@@ -46,7 +47,7 @@ export async function getUser(account): Promise<User> {
     });
   });
   if (res === null) {
-    throw new Error("getAllUser Error");
+    throw new Error("getUser Error");
   }
   return createUser(res);
 }
@@ -82,8 +83,8 @@ export async function updateUser(
 // 添加用户
 export async function addUser(user: User): Promise<boolean> {
   let conn = getConnection();
-  let sql = "insert into user values(?, ?, ?, ?)";
-  let para = [user.account, user.pwd, user.name, user.token];
+  let sql = "insert into user values(?, ?, ?, ?, ?)";
+  let para = [user.account, user.pwd, user.name, user.img, user.token];
   let res: boolean = await new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {
       if (!err && rows.affectedRows > 0) {

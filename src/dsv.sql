@@ -1,4 +1,5 @@
-create database if not exists dsv;
+drop database dsv;
+create database  dsv;
 
 use dsv;
 
@@ -6,6 +7,7 @@ create table user (
 	account varchar(20) primary key,
 	pwd varchar(50),
 	username varchar(20),
+	img text,
 	token varchar(100)
 );
 
