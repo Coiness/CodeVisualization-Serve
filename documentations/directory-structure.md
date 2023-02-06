@@ -2,6 +2,17 @@
   - [business-analysis.md](business-analysis.md) 业务分析文档
   - [directory-structure.md](directory-structure.md) 文件目录结构说明文档(现在看的这个)
   - [todo.md](todo.md) 待做事项文档
+- node_modules node 依赖包
+- out 程序打包产物
 - src 源码
+  - __test__ 测试代码
+  - common 通用工具
+	- mysql.ts mysql 数据库链接工具
+  - main.ts 主文件
+  - dsv.sql 数据库建库文件
 - .gitignore git忽略
+- package.json 懂得都懂
+- package-lock.json 依赖包版本描述文件
+- tsconfig.json ts 配置文件
+- webpack.config.js webpack 配置文件
 - [README.md](../README.md) 项目介绍文档

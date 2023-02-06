@@ -31,4 +31,17 @@ const server = {
 	]
 };
 
-module.exports = [server];
+const test = {
+	...baseConfig,
+	name: 'test',
+	entry: './src/__test__/main.ts',
+	output: {
+		filename: 'test.js',
+		path: path.resolve(__dirname, './out')
+	},
+	plugins: [
+		new CleanWebpackPlugin()
+	]
+};
+
+module.exports = [server, test];
