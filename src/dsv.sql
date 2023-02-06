@@ -1,5 +1,5 @@
-drop database dsv;
-create database  dsv;
+drop database if exists dsv;
+create database dsv CHARACTER SET utf8;
 
 use dsv;
 

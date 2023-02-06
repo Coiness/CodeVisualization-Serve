@@ -2,13 +2,7 @@ import { getConnection, recovery } from "../common";
 import { User } from "../pojo";
 
 function createUser(data) {
-  let u = new User();
-  u.account = data.account;
-  u.pwd = data.pwd;
-  u.name = data.username;
-  u.img = data.img;
-  u.token = data.token;
-  return u;
+  return new User(data.account, data.pwd, data.username, data.img, data.token);
 }
 
 // 获取所有用户
@@ -54,19 +48,18 @@ export async function getUser(account: string): Promise<User> {
 
 // 修改用户
 export async function updateUser(
-  user: User,
-  attrs: string[]
+  account: string,
+  attrs: string[],
+  values: any[]
 ): Promise<boolean> {
   let conn = getConnection();
   let sql = "update user set ";
-  let values = [];
   for (let i = 0; i < attrs.length - 1; i++) {
     sql += attrs[i] + " = ?, ";
-    values.push(user[attrs[i]]);
   }
   sql += attrs[attrs.length - 1] + " = ? ";
   sql += "where account = ?";
-  let para = [...values, user.account];
+  let para = [...values, account];
   let res: boolean = await new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {
       if (!err && rows.affectedRows > 0) {
