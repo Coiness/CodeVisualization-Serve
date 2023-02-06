@@ -22,7 +22,7 @@ export function getConnection() {
   if (now > 0) {
     return connArr[--now];
   } else {
-    return null;
+    throw new Error("mysql connection empty");
   }
 }
 
