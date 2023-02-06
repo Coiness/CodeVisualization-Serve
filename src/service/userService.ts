@@ -6,6 +6,7 @@ const DefauleImg = "";
 
 const key = "60rzvvbj";
 const time = WEEK; // 有效时间
+const TokenSeparator = ":-:";
 
 /**
  * 生成 token
@@ -14,7 +15,22 @@ const time = WEEK; // 有效时间
  */
 function createToken(account: string) {
   let now = Date.now();
-  return `${now}:-:${md5(`${account}${key}${now}`)}`;
+  return `${now}${TokenSeparator}${md5(`${account}${key}${now}`)}`;
+}
+
+/**
+ * 检查用户登录状态
+ * @param account
+ * @param token
+ */
+export function checkToken(account: string, token: string): boolean {
+  let [d, t] = token.split(TokenSeparator);
+  let date = parseInt(d);
+  if (Date.now() - date > time) {
+    return false;
+  }
+  let nt = md5(`${account}${key}${d}`);
+  return t === nt;
 }
 
 export async function register(account, pwd) {
@@ -33,7 +49,7 @@ export async function register(account, pwd) {
   }
 }
 
-export async function login(account, pwd) {
+export async function login(account, pwd): Promise<User | null> {
   let user = await getUser(account);
   if (user === null) {
     return null;
