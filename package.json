@@ -1,0 +1,28 @@
+{
+  "name": "dsvserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --config-name main && node ./out/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/60rzvvbj/Data-structure-visualization-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/60rzvvbj/Data-structure-visualization-server/issues"
+  },
+  "homepage": "https://github.com/60rzvvbj/Data-structure-visualization-server#readme",
+  "dependencies": {
+    "ts-loader": "^9.2.8",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0"
+  }
+}

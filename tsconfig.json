@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+      "target": "ES5",
+      "module": "commonjs", // 编写后是 commonjs 规范
+      "noImplicitAny": false,
+      "removeComments": true,
+      "preserveConstEnums": true
+  },
+  "include": [
+      "src/**/*"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+  ]
+}
