@@ -26,7 +26,7 @@ export async function getAllUser(): Promise<User[]> {
 }
 
 // 获取user
-export async function getUser(account: string): Promise<User> {
+export async function getUser(account: string): Promise<User | null> {
   let conn = getConnection();
   let sql = "select * from user where account = ?";
   let arr = [account];
@@ -41,7 +41,7 @@ export async function getUser(account: string): Promise<User> {
     });
   });
   if (res === null) {
-    throw new Error("getUser Error");
+    return null;
   }
   return createUser(res);
 }
