@@ -45,8 +45,16 @@ let staticUrl = path.resolve("webapp/");
 app.use(express.static(staticUrl));
 
 // 控制器
-import { userController } from "./net";
+import {
+  userController,
+  projectController,
+  videoController,
+  algorithmController,
+} from "./net";
 userController(app);
+projectController(app);
+videoController(app);
+algorithmController(app);
 
 // import projectController from "./controller/projectController.js";
 // import otherController from "./controller/otherController.js";

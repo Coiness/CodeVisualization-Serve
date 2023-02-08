@@ -2,9 +2,6 @@ import * as userService from "../service/userService";
 import { nil, MONTH } from "../common";
 import resultUtil from "./resultUtil";
 import { checkUser } from "./checkUser";
-// import checkUtil from "../utils/checkUtil.js";
-// import tokenUtil from "../utils/tokenUtil.js";
-// import constUtil from "../utils/constUtil.js";
 
 export function userController(app) {
   // 注册

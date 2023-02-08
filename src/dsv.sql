@@ -18,7 +18,7 @@ create table project (
 	content text,
 	createTime long,
 	modifyTime long,
-	permission int
+	permission int -- 0 私有，1 公开
 ) auto_increment=10001;
 
 create table video (
@@ -27,7 +27,7 @@ create table video (
 	account varchar(20),
 	content text,
 	createTime long,
-	permission int
+	permission int -- 0 私有，2 公开
 ) auto_increment=10001;
 
 create table algorithm (
@@ -37,5 +37,5 @@ create table algorithm (
 	content text,
 	createTime long,
 	modifyTime long,
-	permission int
+	permission int -- 0 私有，1 可使用，2 可阅读
 ) auto_increment=10001;
