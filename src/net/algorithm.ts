@@ -9,20 +9,20 @@ export function algorithmController(app) {
     let token = req.headers.token;
     let account = req.cookies.account;
     let name = req.body.name;
-    let snapshot = req.body.snapshot;
+    let content = req.body.content;
 
     if (!checkUser(account, token, res)) {
       return;
     }
 
     // 判断参数是否完整
-    if (!nil({ name, snapshot })) {
+    if (!nil({ name, content })) {
       res.send(resultUtil.paramsError());
       return;
     }
 
     // 开始注册
-    let id = await algorithmsService.createAlgorithm(account, name, snapshot);
+    let id = await algorithmsService.createAlgorithm(account, name, content);
 
     // 返回结果
     if (id) {
@@ -72,7 +72,7 @@ export function algorithmController(app) {
     let token = req.headers.token;
     let account = req.cookies.account;
     let id = req.body.id;
-    let name = req.body.id;
+    let name = req.body.name;
 
     if (!checkUser(account, token, res)) {
       return;
@@ -217,15 +217,8 @@ export function algorithmController(app) {
     // 获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
-    let name = req.query.name;
 
     if (!checkUser(account, token, res)) {
-      return;
-    }
-
-    // 判断参数是否完整
-    if (!nil({ name })) {
-      res.send(resultUtil.paramsError());
       return;
     }
 

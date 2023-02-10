@@ -72,7 +72,7 @@ export function projectController(app) {
     let token = req.headers.token;
     let account = req.cookies.account;
     let id = req.body.id;
-    let name = req.body.id;
+    let name = req.body.name;
 
     if (!checkUser(account, token, res)) {
       return;
@@ -214,15 +214,8 @@ export function projectController(app) {
     // 获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
-    let name = req.query.name;
 
     if (!checkUser(account, token, res)) {
-      return;
-    }
-
-    // 判断参数是否完整
-    if (!nil({ name })) {
-      res.send(resultUtil.paramsError());
       return;
     }
 
