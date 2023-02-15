@@ -181,7 +181,7 @@ export function algorithmController(app) {
       return;
     }
 
-    let algorithms = algorithmsService.searchAlgorithm("", name);
+    let algorithms = await algorithmsService.searchAlgorithm("", name);
     if (algorithms !== null) {
       res.send(resultUtil.success("查找成功", { algorithms }));
     } else {
@@ -205,7 +205,7 @@ export function algorithmController(app) {
       return;
     }
 
-    let algorithms = algorithmsService.searchAlgorithm(account, name);
+    let algorithms = await algorithmsService.searchAlgorithm(account, name);
     if (algorithms !== null) {
       res.send(resultUtil.success("查找成功", { algorithms }));
     } else {
@@ -222,7 +222,7 @@ export function algorithmController(app) {
       return;
     }
 
-    let algorithms = algorithmsService.getProjctByAccount(account, true);
+    let algorithms = await algorithmsService.getProjctByAccount(account, true);
     if (algorithms !== null) {
       res.send(resultUtil.success("获取成功", { algorithms }));
     } else {

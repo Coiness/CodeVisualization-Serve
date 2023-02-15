@@ -178,7 +178,7 @@ export function projectController(app) {
       return;
     }
 
-    let projects = projectService.searchProject("", name);
+    let projects = await projectService.searchProject("", name);
     if (projects !== null) {
       res.send(resultUtil.success("查找成功", { projects }));
     } else {
@@ -202,7 +202,7 @@ export function projectController(app) {
       return;
     }
 
-    let projects = projectService.searchProject(account, name);
+    let projects = await projectService.searchProject(account, name);
     if (projects !== null) {
       res.send(resultUtil.success("查找成功", { projects }));
     } else {
@@ -219,7 +219,7 @@ export function projectController(app) {
       return;
     }
 
-    let projects = projectService.getProjctByAccount(account, true);
+    let projects = await projectService.getProjctByAccount(account, true);
     if (projects !== null) {
       res.send(resultUtil.success("获取成功", { projects }));
     } else {

@@ -178,7 +178,7 @@ export function videoController(app) {
       return;
     }
 
-    let videos = videoService.searchVideo("", name);
+    let videos = await videoService.searchVideo("", name);
     if (videos !== null) {
       res.send(resultUtil.success("查找成功", { videos: videos }));
     } else {
@@ -202,7 +202,7 @@ export function videoController(app) {
       return;
     }
 
-    let videos = videoService.searchVideo(account, name);
+    let videos = await videoService.searchVideo(account, name);
     if (videos !== null) {
       res.send(resultUtil.success("查找成功", { videos: videos }));
     } else {
@@ -219,7 +219,7 @@ export function videoController(app) {
       return;
     }
 
-    let videos = videoService.getVideoByAccount(account, true);
+    let videos = await videoService.getVideoByAccount(account, true);
     if (videos !== null) {
       res.send(resultUtil.success("获取成功", { videos: videos }));
     } else {

@@ -18,7 +18,7 @@ export async function getProjectsByName(
   account: string
 ): Promise<Project[] | null> {
   let conn = getConnection();
-  let sql = `select * from project where projectName like %${name}% and (permission = 1 or account = ${account}) order by createTime DESC`;
+  let sql = `select * from project where projectName like \'%${name}%\' and (permission = 1 or account = '${account}') order by createTime DESC`;
   let res: any[] | null = await new Promise(function (resolve, reject) {
     conn.query(sql, function (err, results, fields) {
       if (!err) {
