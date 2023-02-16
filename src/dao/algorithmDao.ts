@@ -21,7 +21,6 @@ export async function getAlgorithmsByName(
   let sql = `select * from algorithm where algorithmName like \'%${name}%\' and (permission = 1 or account = '${account}') order by createTime DESC`;
   let res: any[] | null = await new Promise(function (resolve, reject) {
     conn.query(sql, function (err, results, fields) {
-      console.log("DEBUG: ", err);
       if (!err) {
         resolve(results);
       } else {
