@@ -1,4 +1,13 @@
-import { addUser, getUser, updateUser, getAllUser } from "../dao";
+import {
+  addUser,
+  getUser,
+  updateUser,
+  addFollow,
+  getFollow,
+  getFollowsByAccount,
+  getFollowsByFollowAccount,
+  deleteFollow,
+} from "../dao";
 import { md5, WEEK } from "../common";
 import { User } from "../pojo";
 
@@ -103,4 +112,35 @@ export async function modifyUserName(account, name) {
 
 export async function modifyUserImg(account, img) {
   return await updateUser(account, ["img"], [img]);
+}
+
+export async function follow(account: string, followAccount: string) {
+  return await addFollow(account, followAccount);
+}
+
+export async function removeFollow(account: string, followAccount: string) {
+  return await deleteFollow(account, followAccount);
+}
+
+export async function getFollowList(account: string): Promise<User[]> {
+  let accounts = await getFollowsByAccount(account);
+  let users: User[] = [];
+  for (let i = 0; i < accounts.length; i++) {
+    users[i] = await getUser(accounts[i]);
+  }
+  return users;
+}
+
+export async function getFansList(account: string) {
+  let accounts = await getFollowsByFollowAccount(account);
+  let users: User[] = [];
+  for (let i = 0; i < accounts.length; i++) {
+    users[i] = await getUser(accounts[i]);
+  }
+  return users;
+}
+
+export async function isFollow(account: string, followAccount: string) {
+  let follow = getFollow(account, followAccount);
+  return follow !== null;
 }

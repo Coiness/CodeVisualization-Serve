@@ -18,7 +18,7 @@ export async function getAlgorithmsByName(
   account: string
 ): Promise<Algorithm[] | null> {
   let conn = getConnection();
-  let sql = `select * from algorithm where algorithmName like \'%${name}%\' and (permission = 1 or account = '${account}') order by createTime DESC`;
+  let sql = `select * from algorithm where algorithmName like \'%${name}%\' and (permission > 0 or account = '${account}') order by createTime DESC`;
   let res: any[] | null = await new Promise(function (resolve, reject) {
     conn.query(sql, function (err, results, fields) {
       if (!err) {
