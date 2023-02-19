@@ -204,7 +204,6 @@ export function userController(app) {
       return;
     }
 
-    // 开始修改
     let list = await userService.getFollowList(account);
     let result = list.map((item) => {
       return {
@@ -255,8 +254,8 @@ export function userController(app) {
   app.get("/user/getFollowInfo", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
-    let account = req.cookie.account;
-    let followAccount = req.cookie.followAccount;
+    let account = req.cookies.account;
+    let followAccount = req.query.followAccount;
 
     // 检验用户身份
     if (!checkUser(account, token, res)) {

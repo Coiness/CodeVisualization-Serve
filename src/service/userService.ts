@@ -141,6 +141,6 @@ export async function getFansList(account: string) {
 }
 
 export async function isFollow(account: string, followAccount: string) {
-  let follow = getFollow(account, followAccount);
+  let follow = await getFollow(account, followAccount);
   return follow !== null;
 }

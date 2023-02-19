@@ -6,7 +6,7 @@ export async function getFollowsByAccount(account: string): Promise<string[]> {
   let conn = getConnection();
   let sql = "select followAccount from follow where account = ?";
   let arr = [account];
-  let res: string[] | null = await new Promise(function (resolve, reject) {
+  let res: any[] | null = await new Promise(function (resolve, reject) {
     conn.query(sql, arr, function (err, results, fields) {
       if (!err) {
         resolve(results);
@@ -19,7 +19,7 @@ export async function getFollowsByAccount(account: string): Promise<string[]> {
   if (res === null) {
     throw new Error("getFollowsByAccount Error");
   }
-  return res;
+  return res.map((item) => item.followAccount);
 }
 
 // 关注用户的人
@@ -29,10 +29,10 @@ export async function getFollowsByFollowAccount(
   let conn = getConnection();
   let sql = "select account from follow where followAccount = ?";
   let arr = [account];
-  let res: string[] | null = await new Promise(function (resolve) {
+  let res: any[] | null = await new Promise(function (resolve) {
     conn.query(sql, arr, function (err, results, fields) {
       if (!err) {
-        resolve(results[0]);
+        resolve(results);
       } else {
         resolve(null);
       }
@@ -42,7 +42,7 @@ export async function getFollowsByFollowAccount(
   if (res === null) {
     throw new Error("getFollowsByFollowAccount Error");
   }
-  return res;
+  return res.map((item) => item.account);
 }
 
 // 获取某条关注
@@ -56,7 +56,7 @@ export async function getFollow(
   let res: any[] | null = await new Promise(function (resolve) {
     conn.query(sql, arr, function (err, rows) {
       if (!err) {
-        resolve(rows[0]);
+        resolve(rows);
       } else {
         resolve(null);
       }
@@ -100,7 +100,7 @@ export async function deleteFollow(
   followAccount: string
 ): Promise<boolean> {
   let conn = getConnection();
-  let sql = "delete form follow where account = ? and followAccount = ?";
+  let sql = "delete from follow where account = ? and followAccount = ?";
   let para = [account, followAccount];
   let res: boolean = await new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {
