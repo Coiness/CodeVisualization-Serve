@@ -226,4 +226,22 @@ export function projectController(app) {
       res.send(resultUtil.reject("获取失败"));
     }
   });
+
+  app.get("/project/searchByUser", async function (req, res) {
+    // 获取参数
+    let account = req.query.account;
+
+    // 判断参数是否完整
+    if (!nil({ account })) {
+      res.send(resultUtil.paramsError());
+      return;
+    }
+
+    let projects = await projectService.getProjctByAccount(account, false);
+    if (projects !== null) {
+      res.send(resultUtil.success("查找成功", { projects }));
+    } else {
+      res.send(resultUtil.reject("查找失败"));
+    }
+  });
 }

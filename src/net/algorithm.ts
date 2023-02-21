@@ -229,4 +229,22 @@ export function algorithmController(app) {
       res.send(resultUtil.reject("获取失败"));
     }
   });
+
+  app.get("/algorithm/searchByUser", async function (req, res) {
+    // 获取参数
+    let account = req.query.account;
+
+    // 判断参数是否完整
+    if (!nil({ account })) {
+      res.send(resultUtil.paramsError());
+      return;
+    }
+
+    let algorithms = await algorithmsService.getProjctByAccount(account, false);
+    if (algorithms !== null) {
+      res.send(resultUtil.success("查找成功", { algorithms }));
+    } else {
+      res.send(resultUtil.reject("查找失败"));
+    }
+  });
 }
