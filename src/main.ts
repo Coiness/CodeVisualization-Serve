@@ -2,6 +2,7 @@ import * as express from "express";
 import * as path from "path";
 import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
+import { openWebSocket } from "./common/websocket";
 // import fs from "fs";
 // import netUtil from "./utils/netUtil.js";
 // import constUtil from "./utils/constUtil.js";
@@ -64,6 +65,7 @@ algorithmController(app);
 // 端口
 let port = 3365;
 
+openWebSocket(3001);
 app.listen(port);
 console.log(`local test  : http://localhost:${3365}`);
 // console.log("server test : http://159.75.249.227:8848");
