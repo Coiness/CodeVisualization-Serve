@@ -41,7 +41,7 @@ export async function getAlgorithmsByAccount(
 ): Promise<Algorithm[] | null> {
   let conn = getConnection();
   let sql = `select * from algorithm where account = ?${
-    permission ? " and permission = 1" : ""
+    permission ? " and permission > 0" : ""
   } order by createTime DESC`;
   let arr = [account];
   let res: any[] | null = await new Promise(function (resolve, reject) {
