@@ -1,4 +1,5 @@
 import { WebSocket } from "ws";
+import { handleProjectWS } from "../service/projectService";
 const WebSocketServer = WebSocket.Server;
 
 export interface WebSocketConnection {
@@ -14,7 +15,7 @@ export type WebsocketHandler = (
 ) => void;
 
 const websocketHandler: { [key: string]: WebsocketHandler } = {
-  Project: () => {},
+  Project: handleProjectWS,
 };
 
 // function testWebSocket(port: number) {
@@ -48,11 +49,11 @@ export function openWebSocket(port: number) {
         if (wsHandler) {
           let wsc = {
             handler(handler) {},
-            send(data) {
+            send(data: string) {
               ws.send(
                 JSON.stringify({
                   type: "message",
-                  data: JSON.stringify(data),
+                  data: data,
                 })
               );
             },
@@ -62,7 +63,7 @@ export function openWebSocket(port: number) {
           ws.onmessage = function (res) {
             let data = JSON.parse(res.data.toString());
             if (data.type === "message") {
-              wsc.handler(data);
+              wsc.handler(data.data);
             }
           };
 

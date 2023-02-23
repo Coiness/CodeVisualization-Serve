@@ -1,6 +1,7 @@
 import * as projectDao from "../dao/projectDao";
 import * as userService from "./userService";
 import { Project } from "../pojo";
+import { Subject, WebsocketHandler } from "../common";
 
 export async function createProject(
   account: string,
@@ -73,3 +74,52 @@ export async function updateProjectSnapshot(id: string, snapshot: string) {
   );
   return r;
 }
+
+type Info = {
+  key: string;
+  data: string;
+};
+
+const subjectMap: { [key: string]: { n: number; s: Subject<Info> } } = {};
+
+function getSubject(id: string) {
+  if (!subjectMap[id]) {
+    subjectMap[id] = { n: 1, s: new Subject<Info>() };
+  } else {
+    subjectMap[id].n++;
+  }
+  return subjectMap[id].s;
+}
+
+function closeSubject(id) {
+  if (subjectMap[id]) {
+    subjectMap[id].n--;
+    if (subjectMap[id].n === 0) {
+      delete subjectMap[id];
+    }
+  }
+}
+
+export const handleProjectWS: WebsocketHandler = (ws, data, ready) => {
+  let key: string;
+  let sub = getSubject(data.id);
+  let s = sub.subscribe((info: Info) => {
+    if (key !== info.key) {
+      ws.send(JSON.stringify({ type: "newAction", action: info.data }));
+    }
+  });
+
+  ws.handler = function (str: string) {
+    let data = JSON.parse(str);
+    if (data.type !== "newAction") {
+      return;
+    }
+    key = `${Date.now()}`;
+    sub.next({ key: key, data: data.action });
+  };
+  ws.onClose = function () {
+    closeSubject(data.id);
+    s.unsubscribe();
+  };
+  ready();
+};
