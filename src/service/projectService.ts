@@ -105,17 +105,16 @@ export const handleProjectWS: WebsocketHandler = (ws, data, ready) => {
   let sub = getSubject(data.id);
   let s = sub.subscribe((info: Info) => {
     if (key !== info.key) {
-      ws.send(JSON.stringify({ type: "newAction", action: info.data }));
+      ws.send(info.data);
     }
   });
 
   ws.handler = function (str: string) {
     let data = JSON.parse(str);
-    if (data.type !== "newAction") {
-      return;
-    }
     key = `${Date.now()}`;
-    sub.next({ key: key, data: data.action });
+    if (["newAction", "undo", "redo"].includes(data.type)) {
+      sub.next({ key: key, data: str });
+    }
   };
   ws.onClose = function () {
     closeSubject(data.id);
