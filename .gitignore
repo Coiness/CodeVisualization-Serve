@@ -7,6 +7,7 @@ runTime
 log/pid.log
 ArchiveLog
 /out
+/webapp
 
 # local env files
 .env.local

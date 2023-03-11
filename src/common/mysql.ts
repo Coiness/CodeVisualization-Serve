@@ -6,7 +6,7 @@ let ConnectConfig: ConnectionConfig = {
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "20011219",
+  password: "root",
   database: "dsv",
   charset: "UTF8",
   // encoding: "UTF8",

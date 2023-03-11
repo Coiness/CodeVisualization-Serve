@@ -20,21 +20,21 @@ app.use(cookieParser());
 let staticUrl = path.resolve("webapp/");
 
 // 过滤器
-// import requestFilter from "./filter/requestFilter.js";
-// import forwardFilter from "./filter/forwardFilter.js";
-// forwardFilter.use(app);
+// import requestFilter from "./filter/requestFilter";
+import forwardFilter from "./filter/forwardFilter";
+forwardFilter.use(app);
 // app.use(requestFilter.requestFilter);
 
-// // 转发
+// 转发
 // function forwardFile(source, aim) {
-// 	app.get(source, function (req, res) {
-// 		if (aim == null) {
-// 			res.sendStatus(404);
-// 			res.send();
-// 		} else {
-// 			netUtil.returnResources(aim, res);
-// 		}
-// 	});
+//   app.get(source, function (req, res) {
+//     if (aim == null) {
+//       res.sendStatus(404);
+//       res.send();
+//     } else {
+//       netUtil.returnResources(aim, res);
+//     }
+//   });
 // }
 
 // forwardFile('/', path.join(staticUrl, 'faker.html'));
