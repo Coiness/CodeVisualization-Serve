@@ -103,6 +103,42 @@ export function projectController(app) {
     }
   });
 
+  app.post("/project/save", async function (req, res) {
+    // 获取参数
+    let token = req.headers.token;
+    let account = req.cookies.account;
+    let id = req.body.id;
+    let snapshot = req.body.snapshot;
+
+    if (!checkUser(account, token, res)) {
+      return;
+    }
+
+    // 判断参数是否完整
+    if (!nil({ id, snapshot })) {
+      res.send(resultUtil.paramsError());
+      return;
+    }
+
+    let project = await projectService.getProjectInfo(id);
+    if (project === null) {
+      res.send(resultUtil.reject("要保存的东西不存在"));
+      return;
+    }
+    if (project.account !== account) {
+      res.send(resultUtil.identityError());
+      return;
+    }
+
+    let flag = await projectService.updateProjectSnapshot(id, snapshot);
+
+    if (flag) {
+      res.send(resultUtil.success("保存成功"));
+    } else {
+      res.send(resultUtil.reject("保存失败"));
+    }
+  });
+
   app.post("/project/updatePermission", async function (req, res) {
     // 获取参数
     let token = req.headers.token;

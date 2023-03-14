@@ -142,6 +142,42 @@ export function algorithmController(app) {
     }
   });
 
+  app.post("/algorithm/save", async function (req, res) {
+    // 获取参数
+    let token = req.headers.token;
+    let account = req.cookies.account;
+    let id = req.body.id;
+    let content = req.body.content;
+
+    if (!checkUser(account, token, res)) {
+      return;
+    }
+
+    // 判断参数是否完整
+    if (!nil({ id, content })) {
+      res.send(resultUtil.paramsError());
+      return;
+    }
+
+    let algorithm = await algorithmsService.getAlgorithmInfo(id);
+    if (algorithm === null) {
+      res.send(resultUtil.reject("要保存的东西不存在"));
+      return;
+    }
+    if (algorithm.account !== account) {
+      res.send(resultUtil.identityError());
+      return;
+    }
+
+    let flag = await algorithmsService.updateAlgorithmContent(id, content);
+
+    if (flag) {
+      res.send(resultUtil.success("保存成功"));
+    } else {
+      res.send(resultUtil.reject("保存失败"));
+    }
+  });
+
   app.get("/algorithm/loadInfo", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
