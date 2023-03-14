@@ -18,6 +18,7 @@ create table project (
 	content text,
 	createTime long,
 	modifyTime long,
+	descrition text,
 	permission int -- 0 私有，1 公开
 ) auto_increment=10001;
 
@@ -27,6 +28,7 @@ create table video (
 	account varchar(20),
 	content text,
 	createTime long,
+	descrition text,
 	permission int -- 0 私有，1 公开
 ) auto_increment=10001;
 
@@ -37,6 +39,7 @@ create table algorithm (
 	content text,
 	createTime long,
 	modifyTime long,
+	descrition text,
 	permission int -- 0 私有，1 可使用，2 可阅读
 ) auto_increment=10001;
 
@@ -45,3 +48,5 @@ create table follow (
 	followAccount varchar(20),
 	primary key(account, followAccount)
 );
+
+alter table algorithm add column descrition text;
