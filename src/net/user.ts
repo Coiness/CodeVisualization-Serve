@@ -125,7 +125,7 @@ export function userController(app) {
     }
 
     // 开始修改
-    let flag = await userService.modifyUserName(account, { username });
+    let flag = await userService.modifyUserName(account, username);
 
     // 返回结果
     if (flag) {
