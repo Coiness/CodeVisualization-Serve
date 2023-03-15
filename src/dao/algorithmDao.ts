@@ -9,7 +9,8 @@ function createAlgorithm(data) {
     data.content,
     data.createTime,
     data.modifyTime,
-    data.permission
+    data.permission,
+    data.descrition
   );
 }
 
@@ -110,7 +111,7 @@ export async function addAlgorithm(
   algorithm: Algorithm
 ): Promise<string | boolean> {
   let conn = getConnection();
-  let sql = "insert into algorithm values(?, ?, ?, ?, ?, ?, ?)";
+  let sql = "insert into algorithm values(?, ?, ?, ?, ?, ?, ?, ?)";
   let para = [
     null,
     algorithm.name,
@@ -119,6 +120,7 @@ export async function addAlgorithm(
     algorithm.createTime,
     algorithm.modifyTime,
     algorithm.permission,
+    algorithm.descrition,
   ];
   return new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {

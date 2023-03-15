@@ -9,7 +9,8 @@ function createProject(data) {
     data.content,
     data.createTime,
     data.modifyTime,
-    data.permission
+    data.permission,
+    data.descrition
   );
 }
 
@@ -108,7 +109,7 @@ export async function updateProject(
 
 export async function addProject(project: Project): Promise<string | false> {
   let conn = getConnection();
-  let sql = "insert into project values(?, ?, ?, ?, ?, ?, ?)";
+  let sql = "insert into project values(?, ?, ?, ?, ?, ?, ?, ?)";
   let para = [
     null,
     project.name,
@@ -117,6 +118,7 @@ export async function addProject(project: Project): Promise<string | false> {
     project.createTime,
     project.modifyTime,
     project.permission,
+    project.descrition,
   ];
   return new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {

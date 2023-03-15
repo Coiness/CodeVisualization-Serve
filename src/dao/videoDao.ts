@@ -8,7 +8,8 @@ function createVideo(data) {
     data.account,
     data.content,
     data.createTime,
-    data.permission
+    data.permission,
+    data.descrition
   );
 }
 
@@ -107,7 +108,7 @@ export async function updateVideo(
 
 export async function addVideo(video: Video): Promise<string | boolean> {
   let conn = getConnection();
-  let sql = "insert into video values(?, ?, ?, ?, ?, ?)";
+  let sql = "insert into video values(?, ?, ?, ?, ?, ?, ?)";
   let para = [
     null,
     video.name,
@@ -115,6 +116,7 @@ export async function addVideo(video: Video): Promise<string | boolean> {
     video.content,
     video.createTime,
     video.permission,
+    video.descrition,
   ];
   return new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {

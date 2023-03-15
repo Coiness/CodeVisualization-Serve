@@ -5,10 +5,11 @@ import { Video } from "../pojo";
 export async function createVideo(
   account: string,
   name: string,
-  snapshot: string
+  snapshot: string,
+  descrition: string
 ) {
   let time = Date.now();
-  let p = new Video(0, name, account, snapshot, time, 0);
+  let p = new Video(0, name, account, snapshot, time, 0, descrition);
   let res = await videoDao.addVideo(p);
   return res;
 }
@@ -57,6 +58,11 @@ export async function getVideoByAccount(account: string, isSelf: boolean) {
 
 export async function updateVideoName(id: string, name: string) {
   let r = await videoDao.updateVideo(id, ["videoName"], [name]);
+  return r;
+}
+
+export async function updateVideoDescrition(id: string, descrition: number) {
+  let r = await videoDao.updateVideo(id, ["descrition"], [descrition]);
   return r;
 }
 

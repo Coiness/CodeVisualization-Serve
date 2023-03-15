@@ -5,10 +5,11 @@ import { Algorithm } from "../pojo";
 export async function createAlgorithm(
   account: string,
   name: string,
-  snapshot: string
+  snapshot: string,
+  descrition: string
 ) {
   let time = Date.now();
-  let p = new Algorithm(0, name, account, snapshot, time, time, 0);
+  let p = new Algorithm(0, name, account, snapshot, time, time, 0, descrition);
   let res = await algorithmDao.addAlgorithm(p);
   return res;
 }
@@ -57,6 +58,14 @@ export async function getProjctByAccount(account: string, isSelf: boolean) {
 
 export async function updateAlgorithmName(id: string, name: string) {
   let r = await algorithmDao.updateAlgorithm(id, ["algorithmName"], [name]);
+  return r;
+}
+
+export async function updateAlgorithmDescrition(
+  id: string,
+  descrition: number
+) {
+  let r = await algorithmDao.updateAlgorithm(id, ["descrition"], [descrition]);
   return r;
 }
 

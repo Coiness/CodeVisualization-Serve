@@ -10,6 +10,7 @@ export function algorithmController(app) {
     let account = req.cookies.account;
     let name = req.body.name;
     let content = req.body.content;
+    let descrition = req.body.descrition;
 
     if (!checkUser(account, token, res)) {
       return;
@@ -22,7 +23,12 @@ export function algorithmController(app) {
     }
 
     // 开始注册
-    let id = await algorithmsService.createAlgorithm(account, name, content);
+    let id = await algorithmsService.createAlgorithm(
+      account,
+      name,
+      content,
+      descrition
+    );
 
     // 返回结果
     if (id) {
@@ -95,6 +101,45 @@ export function algorithmController(app) {
     }
 
     let flag = await algorithmsService.updateAlgorithmName(id, name);
+
+    if (flag) {
+      res.send(resultUtil.success("修改成功"));
+    } else {
+      res.send(resultUtil.reject("修改失败"));
+    }
+  });
+
+  app.post("/algorithm/updateDescrition", async function (req, res) {
+    // 获取参数
+    let token = req.headers.token;
+    let account = req.cookies.account;
+    let id = req.body.id;
+    let descrition = req.body.descrition;
+
+    if (!checkUser(account, token, res)) {
+      return;
+    }
+
+    // 判断参数是否完整
+    if (!nil({ id, descrition })) {
+      res.send(resultUtil.paramsError());
+      return;
+    }
+
+    let algorithm = await algorithmsService.getAlgorithmInfo(id);
+    if (algorithm === null) {
+      res.send(resultUtil.reject("要修改的东西不存在"));
+      return;
+    }
+    if (algorithm.account !== account) {
+      res.send(resultUtil.identityError());
+      return;
+    }
+
+    let flag = await algorithmsService.updateAlgorithmDescrition(
+      id,
+      descrition
+    );
 
     if (flag) {
       res.send(resultUtil.success("修改成功"));

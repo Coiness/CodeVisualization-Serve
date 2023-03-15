@@ -6,6 +6,7 @@ export class Algorithm {
   createTime: number;
   modifyTime: number;
   permission: number;
+  descrition: string;
 
   constructor(
     id: number,
@@ -14,7 +15,8 @@ export class Algorithm {
     content: string,
     createTime: number,
     modifyTime: number,
-    permission: number
+    permission: number,
+    descrition: string
   ) {
     this.id = id;
     this.name = name;
@@ -23,5 +25,6 @@ export class Algorithm {
     this.createTime = createTime;
     this.modifyTime = modifyTime;
     this.permission = permission;
+    this.descrition = descrition;
   }
 }

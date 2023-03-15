@@ -5,6 +5,7 @@ export class Video {
   content: string;
   createTime: number;
   permission: number;
+  descrition: string;
 
   constructor(
     id: number,
@@ -12,7 +13,8 @@ export class Video {
     account: string,
     content: string,
     createTime: number,
-    permission: number
+    permission: number,
+    descrition: string
   ) {
     this.id = id;
     this.name = name;
@@ -20,5 +22,6 @@ export class Video {
     this.content = content;
     this.createTime = createTime;
     this.permission = permission;
+    this.descrition = descrition;
   }
 }

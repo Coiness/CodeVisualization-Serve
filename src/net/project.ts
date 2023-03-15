@@ -10,6 +10,7 @@ export function projectController(app) {
     let account = req.cookies.account;
     let name = req.body.name;
     let snapshot = req.body.snapshot;
+    let descrition = req.body.descrition;
 
     if (!checkUser(account, token, res)) {
       return;
@@ -22,7 +23,12 @@ export function projectController(app) {
     }
 
     // 开始注册
-    let id = await projectService.createProject(account, name, snapshot);
+    let id = await projectService.createProject(
+      account,
+      name,
+      snapshot,
+      descrition
+    );
 
     // 返回结果
     if (id) {
@@ -136,6 +142,42 @@ export function projectController(app) {
       res.send(resultUtil.success("保存成功"));
     } else {
       res.send(resultUtil.reject("保存失败"));
+    }
+  });
+
+  app.post("/project/updateDescrition", async function (req, res) {
+    // 获取参数
+    let token = req.headers.token;
+    let account = req.cookies.account;
+    let id = req.body.id;
+    let descrition = req.body.descrition;
+
+    if (!checkUser(account, token, res)) {
+      return;
+    }
+
+    // 判断参数是否完整
+    if (!nil({ id, descrition })) {
+      res.send(resultUtil.paramsError());
+      return;
+    }
+
+    let project = await projectService.getProjectInfo(id);
+    if (project === null) {
+      res.send(resultUtil.reject("要修改的东西不存在"));
+      return;
+    }
+    if (project.account !== account) {
+      res.send(resultUtil.identityError());
+      return;
+    }
+
+    let flag = await projectService.updateProjectDescrition(id, descrition);
+
+    if (flag) {
+      res.send(resultUtil.success("修改成功"));
+    } else {
+      res.send(resultUtil.reject("修改失败"));
     }
   });
 

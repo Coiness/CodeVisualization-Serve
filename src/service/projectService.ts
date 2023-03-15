@@ -6,10 +6,11 @@ import { Subject, WebsocketHandler } from "../common";
 export async function createProject(
   account: string,
   name: string,
-  snapshot: string
+  snapshot: string,
+  descrition: string
 ) {
   let time = Date.now();
-  let p = new Project(0, name, account, snapshot, time, time, 0);
+  let p = new Project(0, name, account, snapshot, time, time, 0, descrition);
   let res = await projectDao.addProject(p);
   return res;
 }
@@ -63,6 +64,11 @@ export async function updateProjectName(id: string, name: string) {
 
 export async function updateProjectPermission(id: string, permission: number) {
   let r = await projectDao.updateProject(id, ["permission"], [permission]);
+  return r;
+}
+
+export async function updateProjectDescrition(id: string, descrition: string) {
+  let r = await projectDao.updateProject(id, ["descrition"], [descrition]);
   return r;
 }
 
