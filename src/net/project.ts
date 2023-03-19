@@ -22,7 +22,6 @@ export function projectController(app) {
       return;
     }
 
-    // 开始注册
     let id = await projectService.createProject(
       account,
       name,

@@ -2,6 +2,15 @@ import * as projectDao from "../dao/projectDao";
 import * as userService from "./userService";
 import { Project } from "../pojo";
 import { Subject, WebsocketHandler } from "../common";
+import {
+  Action,
+  execDo,
+  execRedo,
+  execUndo,
+  HistoryInfo,
+  initPath,
+  Obj,
+} from "../core";
 
 export async function createProject(
   account: string,
@@ -38,6 +47,12 @@ export async function getProjectInfo(id: string) {
   if (p === null) {
     return null;
   }
+
+  const s = await PC.getSnapshot(id);
+  if (s !== null) {
+    p.snapshot = JSON.stringify(s);
+  }
+
   let r: { [key: string]: any } = { ...p };
   r.user = await userService.getUserInfo(r.account);
   return r;
@@ -106,25 +121,114 @@ function closeSubject(id) {
   }
 }
 
-export const handleProjectWS: WebsocketHandler = (ws, data, ready) => {
+export const handleProjectWS: WebsocketHandler = async (ws, data, ready) => {
   let key: string;
-  let sub = getSubject(data.id);
+  let id = data.id;
+  let sub = getSubject(id);
   let s = sub.subscribe((info: Info) => {
     if (key !== info.key) {
       ws.send(info.data);
     }
   });
 
-  ws.handler = function (str: string) {
+  await PC.addCorrdination(id);
+
+  ws.handler = async function (str: string) {
     let data = JSON.parse(str);
     key = `${Date.now()}`;
     if (["newAction", "undo", "redo"].includes(data.type)) {
+      await PC.newMessage(id, data);
       sub.next({ key: key, data: str });
     }
   };
-  ws.onClose = function () {
+  ws.onClose = async function () {
+    await PC.closeCorrdination(id);
     closeSubject(data.id);
     s.unsubscribe();
   };
   ready();
 };
+
+export type ProjectCoordinationMessage =
+  | {
+      type: "newAction";
+      action: Action;
+    }
+  | { type: "undo" }
+  | { type: "redo" };
+
+class ProjectCoordination {
+  private projectMap: {
+    [id: string]: {
+      snapshot: Obj;
+      historyInfo: HistoryInfo;
+      count: number;
+    };
+  } = {};
+
+  async addCorrdination(projectId: string) {
+    if (this.projectMap.hasOwnProperty(projectId)) {
+      this.projectMap[projectId].count++;
+    } else {
+      let info = (await getProjectInfo(projectId)) as Project;
+      let snapshot = JSON.parse(info.snapshot) as Obj;
+      initPath(snapshot);
+      this.projectMap[projectId] = {
+        snapshot: snapshot,
+        historyInfo: {
+          history: [],
+          index: 0,
+        },
+        count: 1,
+      };
+    }
+  }
+
+  async newMessage(
+    projectId: string,
+    data: ProjectCoordinationMessage
+  ): Promise<void> {
+    if (!this.projectMap.hasOwnProperty(projectId)) {
+      throw new Error("ProjectCorrdination: not find connect");
+    }
+
+    let { snapshot, historyInfo } = this.projectMap[projectId];
+    if (data.type === "newAction") {
+      execDo(snapshot, historyInfo, data.action.cs);
+    } else if (data.type === "undo") {
+      execUndo(snapshot, historyInfo);
+    } else if (data.type === "redo") {
+      execRedo(snapshot, historyInfo);
+    } else {
+      throw new Error("ProjectCorrdination: newMessage data.type error");
+    }
+  }
+
+  async closeCorrdination(projectId: string) {
+    if (this.projectMap.hasOwnProperty(projectId)) {
+      this.projectMap[projectId].count--;
+      if (this.projectMap[projectId].count === 0) {
+        let flag = await updateProjectSnapshot(
+          projectId,
+          JSON.stringify(this.projectMap[projectId].snapshot)
+        );
+        if (!flag) {
+          throw new Error("ProjectCorrdination: updateProjectSnapshot error");
+        }
+        delete this.projectMap[projectId];
+      }
+    } else {
+      throw new Error("ProjectCorrdination: not find connect");
+    }
+  }
+
+  async getSnapshot(projectId: string) {
+    if (this.projectMap.hasOwnProperty(projectId)) {
+      return this.projectMap[projectId].snapshot;
+    } else {
+      return null;
+    }
+  }
+}
+
+const PC = new ProjectCoordination();
