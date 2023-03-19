@@ -48,12 +48,13 @@ export async function getProjectInfo(id: string) {
     return null;
   }
 
-  const s = await PC.getSnapshot(id);
-  if (s !== null) {
-    p.snapshot = JSON.stringify(s);
-  }
-
   let r: { [key: string]: any } = { ...p };
+
+  const d = await PC.getProjectData(id);
+  if (d !== null) {
+    r.snapshot = JSON.stringify(d.snapshot);
+    r.historyInfo = JSON.stringify(d.historyInfo);
+  }
   r.user = await userService.getUserInfo(r.account);
   return r;
 }
@@ -222,9 +223,12 @@ class ProjectCoordination {
     }
   }
 
-  async getSnapshot(projectId: string) {
+  async getProjectData(projectId: string) {
     if (this.projectMap.hasOwnProperty(projectId)) {
-      return this.projectMap[projectId].snapshot;
+      return {
+        snapshot: this.projectMap[projectId].snapshot,
+        historyInfo: this.projectMap[projectId].historyInfo,
+      };
     } else {
       return null;
     }
