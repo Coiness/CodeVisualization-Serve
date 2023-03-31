@@ -16,6 +16,7 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 
 let staticUrl = path.resolve("webapp/");
 

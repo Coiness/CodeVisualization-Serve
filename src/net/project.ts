@@ -17,7 +17,7 @@ export function projectController(app) {
     }
 
     // 判断参数是否完整
-    if (!nil({ name, snapshot })) {
+    if (!nil({ name, snapshot, descrition })) {
       res.send(resultUtil.paramsError());
       return;
     }

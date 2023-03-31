@@ -17,7 +17,7 @@ export function videoController(app) {
     }
 
     // 判断参数是否完整
-    if (!nil({ name, content })) {
+    if (!nil({ name, content, descrition })) {
       res.send(resultUtil.paramsError());
       return;
     }

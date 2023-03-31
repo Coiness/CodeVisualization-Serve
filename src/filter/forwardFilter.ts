@@ -8,9 +8,9 @@ let routes = [
   "/projectCenter",
   "/videoPlay",
   "/videoCenter",
-  "algorithmEdit",
-  "algorithmCenter",
-  "userInfo",
+  "/algorithmEdit",
+  "/algorithmCenter",
+  "/userInfo",
 ];
 
 function use(app) {
