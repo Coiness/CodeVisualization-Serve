@@ -11,10 +11,15 @@ import { openWebSocket } from "./common/websocket";
 let app = express();
 app.use(
   bodyParser.urlencoded({
-    extended: false,
+    extended: true,
+    limit: "100mb",
   })
 );
-app.use(bodyParser.json());
+app.use(
+  bodyParser.json({
+    limit: "100mb",
+  })
+);
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 
@@ -64,11 +69,11 @@ algorithmController(app);
 // otherController.run(app);
 
 // 端口
-let port = 3365;
+const port = 80;
 
 openWebSocket(3001);
 app.listen(port);
-console.log(`local test  : http://localhost:${3365}`);
+console.log(`local test  : http://localhost:${port}`);
 // console.log("server test : http://159.75.249.227:8848");
 console.log();
 

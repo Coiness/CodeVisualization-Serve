@@ -4,11 +4,12 @@ create database dsv CHARACTER SET utf8;
 use dsv;
 
 create table user (
-	account varchar(20) primary key,
+	account varchar(100) primary key,
 	pwd varchar(50),
 	username varchar(20),
 	img text,
-	token varchar(100)
+	token varchar(100),
+	invitationCode varchar(100)
 );
 
 create table project (
