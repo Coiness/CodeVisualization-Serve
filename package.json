@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm link typescript && webpack --config-name main && node ./out/index.js",
-    "test": "npm link typescript && webpack --config-name test && node ./out/test.js"
+    "test": "npm link typescript && webpack --config-name test && node ./out/test.js",
+    "cc": "npm link typescript && webpack --config-name createCode && node ./out/createCode.js"
   },
   "repository": {
     "type": "git",

@@ -40,4 +40,15 @@ const test = {
   plugins: [new CleanWebpackPlugin()],
 };
 
-module.exports = [server, test];
+const createInvitationCode = {
+  ...baseConfig,
+  name: "createCode",
+  entry: "./src/createCode.ts",
+  output: {
+    filename: "createCode.js",
+    path: path.resolve(__dirname, "./out"),
+  },
+  plugins: [new CleanWebpackPlugin()],
+};
+
+module.exports = [server, test, createInvitationCode];

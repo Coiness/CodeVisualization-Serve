@@ -1,4 +1,5 @@
 import * as userService from "../service/userService";
+import { RegisterResult } from "../service/userService";
 import { nil, MONTH } from "../common";
 import resultUtil from "./resultUtil";
 import { checkUser } from "./checkUser";
@@ -9,6 +10,8 @@ export function userController(app) {
     // 获取参数
     let account = req.body.account;
     let pwd = req.body.pwd;
+    let checkCode = req.body.checkCode;
+    let invitationCode = req.body.invitationCode;
 
     // 判断参数是否完整
     if (!nil({ account, pwd })) {
@@ -17,13 +20,22 @@ export function userController(app) {
     }
 
     // 开始注册
-    let flag = await userService.register(account, pwd);
+    let flag = await userService.register(
+      account,
+      pwd,
+      checkCode,
+      invitationCode
+    );
 
     // 返回结果
-    if (flag) {
+    if (flag.code === userService.RegisterErrorCode.Success) {
       res.send(resultUtil.success("注册成功"));
     } else {
-      res.send(resultUtil.reject("注册失败"));
+      res.send(
+        resultUtil.reject("注册失败", {
+          code: flag.code,
+        })
+      );
     }
   });
 
