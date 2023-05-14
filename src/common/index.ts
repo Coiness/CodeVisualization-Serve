@@ -4,3 +4,4 @@ export * from "./constTime";
 export * from "./nil";
 export * from "./websocket";
 export * from "./subject";
+export * from "./mime";
