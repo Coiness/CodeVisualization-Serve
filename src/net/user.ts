@@ -1,10 +1,29 @@
 import * as userService from "../service/userService";
-import { RegisterResult } from "../service/userService";
 import { nil, MONTH } from "../common";
 import resultUtil from "./resultUtil";
 import { checkUser } from "./checkUser";
 
 export function userController(app) {
+  // 发送邮箱验证码
+  app.post("/user/sendCheckCode", async function (req, res) {
+    // 获取参数
+    let account = req.body.account;
+
+    // 判断参数是否完整
+    if (!nil({ account })) {
+      res.send(resultUtil.paramsError());
+      return;
+    }
+
+    let flag = await userService.getCheckCode(account);
+
+    if (flag) {
+      res.send(resultUtil.success("发送成功"));
+    } else {
+      res.send(resultUtil.reject("发送失败"));
+    }
+  });
+
   // 注册
   app.post("/user/register", async function (req, res) {
     // 获取参数
@@ -29,7 +48,11 @@ export function userController(app) {
 
     // 返回结果
     if (flag.code === userService.RegisterErrorCode.Success) {
-      res.send(resultUtil.success("注册成功"));
+      res.send(
+        resultUtil.success("注册成功", {
+          code: flag.code,
+        })
+      );
     } else {
       res.send(
         resultUtil.reject("注册失败", {

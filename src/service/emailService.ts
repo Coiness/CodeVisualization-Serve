@@ -16,7 +16,7 @@ export async function sendEmail(email: string, code: string): Promise<boolean> {
   try {
     // 定义transport对象并发送邮件
     await transporter.sendMail({
-      from: `"D&A Visualization" <${config.mail}}>`, // 发送方邮箱的账号
+      from: `"D&A Visualization" <${config.mail}>`, // 发送方邮箱的账号
       to: email, // 邮箱接受者的账号
       subject: "欢迎注册 D&A Visualization", // Subject line
       text: "", // 文本内容
