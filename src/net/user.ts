@@ -2,6 +2,10 @@ import * as userService from "../service/userService";
 import { nil, MONTH } from "../common";
 import resultUtil from "./resultUtil";
 import { checkUser } from "./checkUser";
+import * as imageService from "../service/imageService";
+import multer = require("multer");
+
+const upload = multer({ dest: "upload_tmp/" });
 
 export function userController(app) {
   // 发送邮箱验证码
@@ -309,5 +313,34 @@ export function userController(app) {
 
     // 返回结果
     res.send(resultUtil.success("获取成功", { followed, reverseFollowed }));
+  });
+
+  app.post("/user/uploadImage", upload.any(), async function (req, res) {
+    // 获取参数
+    let token = req.headers.token;
+    let account = req.cookies.account;
+    let file = req.files[0];
+
+    // 检验用户身份
+    if (!checkUser(account, token, res)) {
+      return;
+    }
+
+    // 判断参数是否完整
+    if (!nil({ file })) {
+      res.send(resultUtil.paramsError());
+      return;
+    }
+
+    // 开始上传图片
+    let url = await imageService.uploadImage(file);
+    let flag = await userService.modifyUserImg(account, url);
+
+    // 返回结果
+    if (flag) {
+      res.send(resultUtil.success("上传成功"));
+    } else {
+      res.send(resultUtil.reject("上传失败"));
+    }
   });
 }
