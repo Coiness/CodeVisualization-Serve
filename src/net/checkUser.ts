@@ -4,12 +4,12 @@ import { checkToken } from "../service";
 
 export function checkUser(account, token, res) {
   if (!nil({ account })) {
-    res.send(resultUtil.accountError());
+    res.send(resultUtil.noLogin());
     return false;
   }
 
   if (!nil({ token })) {
-    res.send(resultUtil.paramsError());
+    res.send(resultUtil.noLogin());
     return false;
   }
 

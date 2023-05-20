@@ -25,6 +25,15 @@ function accountError() {
   };
 }
 
+function noLogin() {
+  return {
+    false: false,
+    code: 4005,
+    message: "未登录",
+    data: null,
+  };
+}
+
 function tokenError() {
   return {
     flag: false,
@@ -59,4 +68,5 @@ export default {
   tokenError,
   paramsError,
   identityError,
+  noLogin,
 };
