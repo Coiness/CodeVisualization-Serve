@@ -36,7 +36,7 @@ export async function searchAlgorithm(account: string, name: string) {
   let res: any = [];
   for (let item of ps) {
     let o: { [key: string]: any } = { ...item };
-    o.user = await userService.getUserInfo(account);
+    o.user = await userService.getUserInfo(item.account);
     res.push(o);
   }
   return res;
