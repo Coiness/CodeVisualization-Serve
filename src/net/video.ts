@@ -182,10 +182,6 @@ export function videoController(app) {
     let account = req.cookies.account;
     let id = req.query.id;
 
-    if (!checkUser(account, token, res)) {
-      return;
-    }
-
     // 判断参数是否完整
     if (!nil({ id })) {
       res.send(resultUtil.paramsError());
@@ -197,7 +193,17 @@ export function videoController(app) {
       res.send(resultUtil.reject("不存在"));
       return;
     }
-    if (video.account !== account && video.permission === 0) {
+
+    if (video.permission !== 0) {
+      res.send(resultUtil.success("获取成功", video));
+      return;
+    }
+
+    if (!checkUser(account, token, res)) {
+      return;
+    }
+
+    if (video.account !== account) {
       res.send(resultUtil.identityError());
       return;
     }

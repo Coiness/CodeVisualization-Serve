@@ -222,10 +222,6 @@ export function projectController(app) {
     let account = req.cookies.account;
     let id = req.query.id;
 
-    if (!checkUser(account, token, res)) {
-      return;
-    }
-
     // 判断参数是否完整
     if (!nil({ id })) {
       res.send(resultUtil.paramsError());
@@ -237,7 +233,17 @@ export function projectController(app) {
       res.send(resultUtil.reject("不存在"));
       return;
     }
-    if (project.account !== account && project.permission === 0) {
+
+    if (project.permission !== 0) {
+      res.send(resultUtil.success("获取成功", project));
+      return;
+    }
+
+    if (!checkUser(account, token, res)) {
+      return;
+    }
+
+    if (project.account !== account) {
       res.send(resultUtil.identityError());
       return;
     }

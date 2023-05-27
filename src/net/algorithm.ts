@@ -229,10 +229,6 @@ export function algorithmController(app) {
     let account = req.cookies.account;
     let id = req.query.id;
 
-    if (!checkUser(account, token, res)) {
-      return;
-    }
-
     // 判断参数是否完整
     if (!nil({ id })) {
       res.send(resultUtil.paramsError());
@@ -240,11 +236,22 @@ export function algorithmController(app) {
     }
 
     let algorithm = await algorithmsService.getAlgorithmInfo(id);
+
     if (algorithm === null) {
       res.send(resultUtil.reject("不存在"));
       return;
     }
-    if (algorithm.account !== account && algorithm.permission === 0) {
+
+    if (algorithm.permission !== 0) {
+      res.send(resultUtil.success("获取成功", algorithm));
+      return;
+    }
+
+    if (!checkUser(account, token, res)) {
+      return;
+    }
+
+    if (algorithm.account !== account) {
       res.send(resultUtil.identityError());
       return;
     }
