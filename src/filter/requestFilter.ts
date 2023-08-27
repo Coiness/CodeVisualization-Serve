@@ -45,6 +45,12 @@ function requestFilter(req, res, next) {
   req.logId = logId;
 
   method = method == "GET" ? "GET   " : "POST  ";
+  if (data.query && JSON.stringify(data.query).length > 300) {
+    data.query = "SO_BIG" as any;
+  }
+  if (data.body && JSON.stringify(data.body).length > 300) {
+    data.body = "SO_BIG" as any;
+  }
   const str = `LID: ${logId} M: ${method} URL: ${url} DATA: ${JSON.stringify(
     data
   )}`;
