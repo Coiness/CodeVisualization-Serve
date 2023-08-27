@@ -4,6 +4,7 @@ import resultUtil from "./resultUtil";
 import { checkUser } from "./checkUser";
 import * as imageService from "../service/imageService";
 import multer = require("multer");
+import { log } from "../common/log";
 
 const upload = multer({ dest: "upload_tmp/" });
 
@@ -15,16 +16,16 @@ export function userController(app) {
 
     // 判断参数是否完整
     if (!nil({ account })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let flag = await userService.getCheckCode(account);
 
     if (flag) {
-      res.send(resultUtil.success("发送成功"));
+      res.sendl(resultUtil.success("发送成功"));
     } else {
-      res.send(resultUtil.reject("发送失败"));
+      res.sendl(resultUtil.reject("发送失败"));
     }
   });
 
@@ -38,7 +39,7 @@ export function userController(app) {
 
     // 判断参数是否完整
     if (!nil({ account, pwd })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -52,13 +53,13 @@ export function userController(app) {
 
     // 返回结果
     if (flag.code === userService.RegisterErrorCode.Success) {
-      res.send(
+      res.sendl(
         resultUtil.success("注册成功", {
           code: flag.code,
         })
       );
     } else {
-      res.send(
+      res.sendl(
         resultUtil.reject("注册失败", {
           code: flag.code,
         })
@@ -72,9 +73,11 @@ export function userController(app) {
     let account = req.body.account;
     let pwd = req.body.pwd;
 
+    log.info("Login", "LID: " + req.logId);
+
     // 判断参数是否完整
     if (!nil({ account, pwd })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -89,13 +92,13 @@ export function userController(app) {
         httpOnly: true,
       });
 
-      res.send(
+      res.sendl(
         resultUtil.success("登录成功", {
           token: user.token,
         })
       );
     } else {
-      res.send(resultUtil.reject("登录失败"));
+      res.sendl(resultUtil.reject("登录失败"));
     }
   });
 
@@ -109,9 +112,9 @@ export function userController(app) {
 
     // 返回结果
     if (info) {
-      res.send(resultUtil.success("获取成功", info));
+      res.sendl(resultUtil.success("获取成功", info));
     } else {
-      res.send(resultUtil.reject("获取失败"));
+      res.sendl(resultUtil.reject("获取失败"));
     }
   });
 
@@ -130,7 +133,7 @@ export function userController(app) {
 
   //   // 判断参数是否完整
   //   if (!nil({ oldPwd, newPwd })) {
-  //     res.send(resultUtil.paramsError());
+  //     res.sendl(resultUtil.paramsError());
   //     return;
   //   }
 
@@ -139,9 +142,9 @@ export function userController(app) {
 
   //   // 返回结果
   //   if (flag) {
-  //     res.send(resultUtil.success("修改成功"));
+  //     res.sendl(resultUtil.success("修改成功"));
   //   } else {
-  //     res.send(resultUtil.reject("修改失败"));
+  //     res.sendl(resultUtil.reject("修改失败"));
   //   }
   // });
 
@@ -159,7 +162,7 @@ export function userController(app) {
 
     // 判断参数是否完整
     if (!nil({ username })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -168,9 +171,9 @@ export function userController(app) {
 
     // 返回结果
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -188,7 +191,7 @@ export function userController(app) {
 
     // 判断参数是否完整
     if (!nil({ followAccount })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -197,9 +200,9 @@ export function userController(app) {
 
     // 返回结果
     if (flag) {
-      res.send(resultUtil.success("关注成功"));
+      res.sendl(resultUtil.success("关注成功"));
     } else {
-      res.send(resultUtil.reject("关注失败"));
+      res.sendl(resultUtil.reject("关注失败"));
     }
   });
 
@@ -217,7 +220,7 @@ export function userController(app) {
 
     // 判断参数是否完整
     if (!nil({ followAccount })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -226,9 +229,9 @@ export function userController(app) {
 
     // 返回结果
     if (flag) {
-      res.send(resultUtil.success("取消关注成功"));
+      res.sendl(resultUtil.success("取消关注成功"));
     } else {
-      res.send(resultUtil.reject("取消关注失败"));
+      res.sendl(resultUtil.reject("取消关注失败"));
     }
   });
 
@@ -239,7 +242,7 @@ export function userController(app) {
 
     // 判断参数是否完整
     if (!nil({ account })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -254,9 +257,9 @@ export function userController(app) {
 
     // 返回结果
     if (list) {
-      res.send(resultUtil.success("获取成功", { list: result }));
+      res.sendl(resultUtil.success("获取成功", { list: result }));
     } else {
-      res.send(resultUtil.reject("获取失败"));
+      res.sendl(resultUtil.reject("获取失败"));
     }
   });
 
@@ -267,7 +270,7 @@ export function userController(app) {
 
     // 判断参数是否完整
     if (!nil({ account })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -283,9 +286,9 @@ export function userController(app) {
 
     // 返回结果
     if (list) {
-      res.send(resultUtil.success("获取成功", { list: result }));
+      res.sendl(resultUtil.success("获取成功", { list: result }));
     } else {
-      res.send(resultUtil.reject("获取失败"));
+      res.sendl(resultUtil.reject("获取失败"));
     }
   });
 
@@ -303,7 +306,7 @@ export function userController(app) {
 
     // 判断参数是否完整
     if (!nil({ followAccount })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -312,7 +315,7 @@ export function userController(app) {
     let reverseFollowed = await userService.isFollow(followAccount, account);
 
     // 返回结果
-    res.send(resultUtil.success("获取成功", { followed, reverseFollowed }));
+    res.sendl(resultUtil.success("获取成功", { followed, reverseFollowed }));
   });
 
   app.post("/user/uploadImage", upload.any(), async function (req, res) {
@@ -328,7 +331,7 @@ export function userController(app) {
 
     // 判断参数是否完整
     if (!nil({ file })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -338,9 +341,9 @@ export function userController(app) {
 
     // 返回结果
     if (flag) {
-      res.send(resultUtil.success("上传成功"));
+      res.sendl(resultUtil.success("上传成功"));
     } else {
-      res.send(resultUtil.reject("上传失败"));
+      res.sendl(resultUtil.reject("上传失败"));
     }
   });
 }

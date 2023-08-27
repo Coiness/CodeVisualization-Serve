@@ -18,7 +18,7 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ name, snapshot, descrition })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -31,9 +31,9 @@ export function projectController(app) {
 
     // 返回结果
     if (id) {
-      res.send(resultUtil.success("创建成功", { id }));
+      res.sendl(resultUtil.success("创建成功", { id }));
     } else {
-      res.send(resultUtil.reject("创建失败"));
+      res.sendl(resultUtil.reject("创建失败"));
     }
   });
 
@@ -49,26 +49,26 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let project = await projectService.getProjectInfo(id);
     if (project === null) {
-      res.send(resultUtil.reject("要删除的东西不存在"));
+      res.sendl(resultUtil.reject("要删除的东西不存在"));
       return;
     }
     if (project.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await projectService.removeProject(id);
 
     if (flag) {
-      res.send(resultUtil.success("删除成功"));
+      res.sendl(resultUtil.success("删除成功"));
     } else {
-      res.send(resultUtil.reject("删除失败"));
+      res.sendl(resultUtil.reject("删除失败"));
     }
   });
 
@@ -85,26 +85,26 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let project = await projectService.getProjectInfo(id);
     if (project === null) {
-      res.send(resultUtil.reject("要修改的东西不存在"));
+      res.sendl(resultUtil.reject("要修改的东西不存在"));
       return;
     }
     if (project.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await projectService.updateProjectName(id, name);
 
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -121,26 +121,26 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ id, snapshot })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let project = await projectService.getProjectInfo(id);
     if (project === null) {
-      res.send(resultUtil.reject("要保存的东西不存在"));
+      res.sendl(resultUtil.reject("要保存的东西不存在"));
       return;
     }
     if (project.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await projectService.updateProjectSnapshot(id, snapshot);
 
     if (flag) {
-      res.send(resultUtil.success("保存成功"));
+      res.sendl(resultUtil.success("保存成功"));
     } else {
-      res.send(resultUtil.reject("保存失败"));
+      res.sendl(resultUtil.reject("保存失败"));
     }
   });
 
@@ -157,26 +157,26 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ id, descrition })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let project = await projectService.getProjectInfo(id);
     if (project === null) {
-      res.send(resultUtil.reject("要修改的东西不存在"));
+      res.sendl(resultUtil.reject("要修改的东西不存在"));
       return;
     }
     if (project.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await projectService.updateProjectDescrition(id, descrition);
 
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -193,26 +193,26 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let project = await projectService.getProjectInfo(id);
     if (project === null) {
-      res.send(resultUtil.reject("要修改的东西不存在"));
+      res.sendl(resultUtil.reject("要修改的东西不存在"));
       return;
     }
     if (project.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await projectService.updateProjectPermission(id, permission);
 
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -224,18 +224,18 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let project = await projectService.getProjectInfo(id);
     if (project === null) {
-      res.send(resultUtil.reject("不存在"));
+      res.sendl(resultUtil.reject("不存在"));
       return;
     }
 
     if (project.permission !== 0) {
-      res.send(resultUtil.success("获取成功", project));
+      res.sendl(resultUtil.success("获取成功", project));
       return;
     }
 
@@ -244,11 +244,11 @@ export function projectController(app) {
     }
 
     if (project.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
-    res.send(resultUtil.success("获取成功", project));
+    res.sendl(resultUtil.success("获取成功", project));
   });
 
   app.get("/project/search", async function (req, res) {
@@ -257,15 +257,15 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ name })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let projects = await projectService.searchProject("", name);
     if (projects !== null) {
-      res.send(resultUtil.success("查找成功", { projects }));
+      res.sendl(resultUtil.success("查找成功", { projects }));
     } else {
-      res.send(resultUtil.reject("查找失败"));
+      res.sendl(resultUtil.reject("查找失败"));
     }
   });
 
@@ -281,15 +281,15 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ name })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let projects = await projectService.searchProject(account, name);
     if (projects !== null) {
-      res.send(resultUtil.success("查找成功", { projects }));
+      res.sendl(resultUtil.success("查找成功", { projects }));
     } else {
-      res.send(resultUtil.reject("查找失败"));
+      res.sendl(resultUtil.reject("查找失败"));
     }
   });
 
@@ -304,9 +304,9 @@ export function projectController(app) {
 
     let projects = await projectService.getProjctByAccount(account, true);
     if (projects !== null) {
-      res.send(resultUtil.success("获取成功", { projects }));
+      res.sendl(resultUtil.success("获取成功", { projects }));
     } else {
-      res.send(resultUtil.reject("获取失败"));
+      res.sendl(resultUtil.reject("获取失败"));
     }
   });
 
@@ -316,15 +316,15 @@ export function projectController(app) {
 
     // 判断参数是否完整
     if (!nil({ account })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let projects = await projectService.getProjctByAccount(account, false);
     if (projects !== null) {
-      res.send(resultUtil.success("查找成功", { projects }));
+      res.sendl(resultUtil.success("查找成功", { projects }));
     } else {
-      res.send(resultUtil.reject("查找失败"));
+      res.sendl(resultUtil.reject("查找失败"));
     }
   });
 }

@@ -24,11 +24,16 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 
 let staticUrl = path.resolve("webapp/");
+// let staticUrl = path.resolve("../Data-structure-visualization/build");
 
 // 过滤器
 // import requestFilter from "./filter/requestFilter";
 import forwardFilter from "./filter/forwardFilter";
+import requestFilter from "./filter/requestFilter";
+import responseFilter from "./filter/responseFilter";
 forwardFilter.use(app);
+requestFilter.use(app);
+responseFilter.use(app);
 // app.use(requestFilter.requestFilter);
 
 // 转发
@@ -71,7 +76,7 @@ imageController(app);
 // otherController.run(app);
 
 // 端口
-const port = 80;
+const port = 12345;
 
 openWebSocket(3001);
 app.listen(port);

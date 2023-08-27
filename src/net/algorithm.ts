@@ -18,7 +18,7 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ name, content, descrition })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -32,9 +32,9 @@ export function algorithmController(app) {
 
     // 返回结果
     if (id) {
-      res.send(resultUtil.success("创建成功", { id }));
+      res.sendl(resultUtil.success("创建成功", { id }));
     } else {
-      res.send(resultUtil.reject("创建失败"));
+      res.sendl(resultUtil.reject("创建失败"));
     }
   });
 
@@ -50,26 +50,26 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let algorithm = await algorithmsService.getAlgorithmInfo(id);
     if (algorithm === null) {
-      res.send(resultUtil.reject("要删除的东西不存在"));
+      res.sendl(resultUtil.reject("要删除的东西不存在"));
       return;
     }
     if (algorithm.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await algorithmsService.removeAlgorithm(id);
 
     if (flag) {
-      res.send(resultUtil.success("删除成功"));
+      res.sendl(resultUtil.success("删除成功"));
     } else {
-      res.send(resultUtil.reject("删除失败"));
+      res.sendl(resultUtil.reject("删除失败"));
     }
   });
 
@@ -86,26 +86,26 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let algorithm = await algorithmsService.getAlgorithmInfo(id);
     if (algorithm === null) {
-      res.send(resultUtil.reject("要修改的东西不存在"));
+      res.sendl(resultUtil.reject("要修改的东西不存在"));
       return;
     }
     if (algorithm.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await algorithmsService.updateAlgorithmName(id, name);
 
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -122,17 +122,17 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ id, descrition })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let algorithm = await algorithmsService.getAlgorithmInfo(id);
     if (algorithm === null) {
-      res.send(resultUtil.reject("要修改的东西不存在"));
+      res.sendl(resultUtil.reject("要修改的东西不存在"));
       return;
     }
     if (algorithm.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
@@ -142,9 +142,9 @@ export function algorithmController(app) {
     );
 
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -161,17 +161,17 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let algorithm = await algorithmsService.getAlgorithmInfo(id);
     if (algorithm === null) {
-      res.send(resultUtil.reject("要修改的东西不存在"));
+      res.sendl(resultUtil.reject("要修改的东西不存在"));
       return;
     }
     if (algorithm.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
@@ -181,9 +181,9 @@ export function algorithmController(app) {
     );
 
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -200,26 +200,26 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ id, content })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let algorithm = await algorithmsService.getAlgorithmInfo(id);
     if (algorithm === null) {
-      res.send(resultUtil.reject("要保存的东西不存在"));
+      res.sendl(resultUtil.reject("要保存的东西不存在"));
       return;
     }
     if (algorithm.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await algorithmsService.updateAlgorithmContent(id, content);
 
     if (flag) {
-      res.send(resultUtil.success("保存成功"));
+      res.sendl(resultUtil.success("保存成功"));
     } else {
-      res.send(resultUtil.reject("保存失败"));
+      res.sendl(resultUtil.reject("保存失败"));
     }
   });
 
@@ -231,19 +231,19 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let algorithm = await algorithmsService.getAlgorithmInfo(id);
 
     if (algorithm === null) {
-      res.send(resultUtil.reject("不存在"));
+      res.sendl(resultUtil.reject("不存在"));
       return;
     }
 
     if (algorithm.permission !== 0) {
-      res.send(resultUtil.success("获取成功", algorithm));
+      res.sendl(resultUtil.success("获取成功", algorithm));
       return;
     }
 
@@ -252,11 +252,11 @@ export function algorithmController(app) {
     }
 
     if (algorithm.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
-    res.send(resultUtil.success("获取成功", algorithm));
+    res.sendl(resultUtil.success("获取成功", algorithm));
   });
 
   app.get("/algorithm/search", async function (req, res) {
@@ -265,15 +265,15 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ name })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let algorithms = await algorithmsService.searchAlgorithm("", name);
     if (algorithms !== null) {
-      res.send(resultUtil.success("查找成功", { algorithms }));
+      res.sendl(resultUtil.success("查找成功", { algorithms }));
     } else {
-      res.send(resultUtil.reject("查找失败"));
+      res.sendl(resultUtil.reject("查找失败"));
     }
   });
 
@@ -289,15 +289,15 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ name })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let algorithms = await algorithmsService.searchAlgorithm(account, name);
     if (algorithms !== null) {
-      res.send(resultUtil.success("查找成功", { algorithms }));
+      res.sendl(resultUtil.success("查找成功", { algorithms }));
     } else {
-      res.send(resultUtil.reject("查找失败"));
+      res.sendl(resultUtil.reject("查找失败"));
     }
   });
 
@@ -312,9 +312,9 @@ export function algorithmController(app) {
 
     let algorithms = await algorithmsService.getProjctByAccount(account, true);
     if (algorithms !== null) {
-      res.send(resultUtil.success("获取成功", { algorithms }));
+      res.sendl(resultUtil.success("获取成功", { algorithms }));
     } else {
-      res.send(resultUtil.reject("获取失败"));
+      res.sendl(resultUtil.reject("获取失败"));
     }
   });
 
@@ -324,15 +324,15 @@ export function algorithmController(app) {
 
     // 判断参数是否完整
     if (!nil({ account })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let algorithms = await algorithmsService.getProjctByAccount(account, false);
     if (algorithms !== null) {
-      res.send(resultUtil.success("查找成功", { algorithms }));
+      res.sendl(resultUtil.success("查找成功", { algorithms }));
     } else {
-      res.send(resultUtil.reject("查找失败"));
+      res.sendl(resultUtil.reject("查找失败"));
     }
   });
 }

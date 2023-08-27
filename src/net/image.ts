@@ -21,7 +21,7 @@ export function imageController(app) {
 
     // 判断参数是否完整
     if (!nil({ file })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -30,9 +30,9 @@ export function imageController(app) {
 
     // 返回结果
     if (url) {
-      res.send(resultUtil.success("上传成功", { url }));
+      res.sendl(resultUtil.success("上传成功", { url }));
     } else {
-      res.send(resultUtil.reject("上传失败"));
+      res.sendl(resultUtil.reject("上传失败"));
     }
   });
 
@@ -42,7 +42,7 @@ export function imageController(app) {
 
     // 判断参数是否完整
     if (!nil({ fileName })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 

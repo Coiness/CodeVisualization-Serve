@@ -18,7 +18,7 @@ export function videoController(app) {
 
     // 判断参数是否完整
     if (!nil({ name, content, descrition })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
@@ -27,9 +27,9 @@ export function videoController(app) {
 
     // 返回结果
     if (id) {
-      res.send(resultUtil.success("创建成功", { id }));
+      res.sendl(resultUtil.success("创建成功", { id }));
     } else {
-      res.send(resultUtil.reject("创建失败"));
+      res.sendl(resultUtil.reject("创建失败"));
     }
   });
 
@@ -45,26 +45,26 @@ export function videoController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let video = await videoService.getVideoInfo(id);
     if (video === null) {
-      res.send(resultUtil.reject("要删除的东西不存在"));
+      res.sendl(resultUtil.reject("要删除的东西不存在"));
       return;
     }
     if (video.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await videoService.removeVideo(id);
 
     if (flag) {
-      res.send(resultUtil.success("删除成功"));
+      res.sendl(resultUtil.success("删除成功"));
     } else {
-      res.send(resultUtil.reject("删除失败"));
+      res.sendl(resultUtil.reject("删除失败"));
     }
   });
 
@@ -81,26 +81,26 @@ export function videoController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let video = await videoService.getVideoInfo(id);
     if (video === null) {
-      res.send(resultUtil.reject("要修改的东西不存在"));
+      res.sendl(resultUtil.reject("要修改的东西不存在"));
       return;
     }
     if (video.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await videoService.updateVideoName(id, name);
 
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -117,26 +117,26 @@ export function videoController(app) {
 
     // 判断参数是否完整
     if (!nil({ id, descrition })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let video = await videoService.getVideoInfo(id);
     if (video === null) {
-      res.send(resultUtil.reject("要修改的东西不存在"));
+      res.sendl(resultUtil.reject("要修改的东西不存在"));
       return;
     }
     if (video.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await videoService.updateVideoDescrition(id, descrition);
 
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -153,26 +153,26 @@ export function videoController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let video = await videoService.getVideoInfo(id);
     if (video === null) {
-      res.send(resultUtil.reject("要修改的东西不存在"));
+      res.sendl(resultUtil.reject("要修改的东西不存在"));
       return;
     }
     if (video.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
     let flag = await videoService.updateVideoPermission(id, permission);
 
     if (flag) {
-      res.send(resultUtil.success("修改成功"));
+      res.sendl(resultUtil.success("修改成功"));
     } else {
-      res.send(resultUtil.reject("修改失败"));
+      res.sendl(resultUtil.reject("修改失败"));
     }
   });
 
@@ -184,18 +184,18 @@ export function videoController(app) {
 
     // 判断参数是否完整
     if (!nil({ id })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let video = await videoService.getVideoInfo(id);
     if (video === null) {
-      res.send(resultUtil.reject("不存在"));
+      res.sendl(resultUtil.reject("不存在"));
       return;
     }
 
     if (video.permission !== 0) {
-      res.send(resultUtil.success("获取成功", video));
+      res.sendl(resultUtil.success("获取成功", video));
       return;
     }
 
@@ -204,11 +204,11 @@ export function videoController(app) {
     }
 
     if (video.account !== account) {
-      res.send(resultUtil.identityError());
+      res.sendl(resultUtil.identityError());
       return;
     }
 
-    res.send(resultUtil.success("获取成功", video));
+    res.sendl(resultUtil.success("获取成功", video));
   });
 
   app.get("/video/search", async function (req, res) {
@@ -217,15 +217,15 @@ export function videoController(app) {
 
     // 判断参数是否完整
     if (!nil({ name })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let videos = await videoService.searchVideo("", name);
     if (videos !== null) {
-      res.send(resultUtil.success("查找成功", { videos: videos }));
+      res.sendl(resultUtil.success("查找成功", { videos: videos }));
     } else {
-      res.send(resultUtil.reject("查找失败"));
+      res.sendl(resultUtil.reject("查找失败"));
     }
   });
 
@@ -241,15 +241,15 @@ export function videoController(app) {
 
     // 判断参数是否完整
     if (!nil({ name })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let videos = await videoService.searchVideo(account, name);
     if (videos !== null) {
-      res.send(resultUtil.success("查找成功", { videos: videos }));
+      res.sendl(resultUtil.success("查找成功", { videos: videos }));
     } else {
-      res.send(resultUtil.reject("查找失败"));
+      res.sendl(resultUtil.reject("查找失败"));
     }
   });
 
@@ -264,9 +264,9 @@ export function videoController(app) {
 
     let videos = await videoService.getVideoByAccount(account, true);
     if (videos !== null) {
-      res.send(resultUtil.success("获取成功", { videos: videos }));
+      res.sendl(resultUtil.success("获取成功", { videos: videos }));
     } else {
-      res.send(resultUtil.reject("获取失败"));
+      res.sendl(resultUtil.reject("获取失败"));
     }
   });
 
@@ -276,15 +276,15 @@ export function videoController(app) {
 
     // 判断参数是否完整
     if (!nil({ account })) {
-      res.send(resultUtil.paramsError());
+      res.sendl(resultUtil.paramsError());
       return;
     }
 
     let videos = await videoService.getVideoByAccount(account, false);
     if (videos !== null) {
-      res.send(resultUtil.success("查找成功", { videos: videos }));
+      res.sendl(resultUtil.success("查找成功", { videos: videos }));
     } else {
-      res.send(resultUtil.reject("查找失败"));
+      res.sendl(resultUtil.reject("查找失败"));
     }
   });
 }

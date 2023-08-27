@@ -2,6 +2,7 @@ import * as path from "path";
 import netUtil from "../net/netUtil";
 
 let staticUrl = path.resolve("webapp/");
+// let staticUrl = path.resolve("../Data-structure-visualization/build");
 
 let routes = [
   "/project",
