@@ -5,12 +5,17 @@
 - node_modules node 依赖包
 - out 程序打包产物
 - src 源码
-  - __test__ 测试代码
+  - **test** 测试代码
   - common 通用工具
-	- mysql.ts mysql 数据库链接工具
+  - core 核心业务逻辑
+  - dao 数据访问层
+  - net 网络模块
+  - pojo 数据结构模型
+  - mysql.ts mysql 数据库链接工具
   - main.ts 主文件
   - dsv.sql 数据库建库文件
-- .gitignore git忽略
+  - createCode.ts
+- .gitignore git 忽略
 - package.json 懂得都懂
 - package-lock.json 依赖包版本描述文件
 - tsconfig.json ts 配置文件

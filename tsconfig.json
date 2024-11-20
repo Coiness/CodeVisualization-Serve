@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "commonjs", // 编写后是 commonjs 规范
+    "lib": ["es2015"],
     "noImplicitAny": false,
     "removeComments": true,
     "preserveConstEnums": true

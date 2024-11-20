@@ -1,3 +1,4 @@
+//检查对象是否存在为空的属性
 export function nil(obj) {
   let flag = true;
   for (let x in obj) {

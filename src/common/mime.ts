@@ -1,3 +1,4 @@
+//类型名称简写
 const mimeType = {
   "323": "	text/h323",
   acx: "	application/internet-property-stream",

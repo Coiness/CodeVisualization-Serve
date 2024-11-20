@@ -7,6 +7,8 @@
  * See http://pajhome.org.uk/crypt/md5 for more info.
  */
 
+//将用户密码进行MD5加密
+
 /*
  * Configurable variables. You may need to tweak these to be compatible with
  * the server-side, but the defaults work in most cases.
