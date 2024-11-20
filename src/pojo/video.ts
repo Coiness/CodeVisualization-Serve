@@ -1,3 +1,4 @@
+// 录像的实体类
 export class Video {
   id: number;
   name: string;

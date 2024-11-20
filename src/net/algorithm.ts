@@ -3,7 +3,15 @@ import { nil } from "../common";
 import resultUtil from "./resultUtil";
 import { checkUser } from "./checkUser";
 
+/*
+ *nil(obj) 检查对象是否存在空值
+ *resultUtil 返回结果工具(成功、失败、账号异常、未登录、登录过期、参数缺失、权限不足)
+ *checkUser 检查用户是否登录
+ */
+
 export function algorithmController(app) {
+  //创建算法
+  // 获取参数 => 判断用户是否登录 => 判断参数是否完整 => 开始创建 => 返回结果
   app.post("/algorithm/create", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
@@ -12,6 +20,7 @@ export function algorithmController(app) {
     let content = req.body.content;
     let descrition = req.body.descrition;
 
+    // 判断用户是否登录
     if (!checkUser(account, token, res)) {
       return;
     }
@@ -22,7 +31,7 @@ export function algorithmController(app) {
       return;
     }
 
-    // 开始注册
+    // 开始创建
     let id = await algorithmsService.createAlgorithm(
       account,
       name,

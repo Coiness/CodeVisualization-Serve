@@ -2,18 +2,27 @@ import { WebSocket } from "ws";
 import { handleProjectWS } from "../service/projectService";
 const WebSocketServer = WebSocket.Server;
 
+/*
+ *WebSocket 用于创建WebSocket服务器
+ *handleProjectWS 处理与项目相关的WebSocket连接
+ *WebSocketServer 从WebSocket类中获取服务器的构造函数
+ */
+
+// WebSocketConnection 用于定义WebSocket连接的接口
 export interface WebSocketConnection {
   handler(data: string): void;
   send(data: string): void;
   onClose(): void;
 }
 
+// WebsocketHandler 用于定义WebSocket处理函数的类型
 export type WebsocketHandler = (
   ws: WebSocketConnection,
   data: { [key: string]: any },
   ready: () => void
 ) => void;
 
+// websocketHandler 用于定义WebSocket处理函数的集合
 const websocketHandler: { [key: string]: WebsocketHandler } = {
   Project: handleProjectWS,
 };
@@ -38,6 +47,7 @@ const websocketHandler: { [key: string]: WebsocketHandler } = {
 //   });
 // }
 
+// 创建并启动WebSocket服务器
 export function openWebSocket(port: number) {
   const wss = new WebSocketServer({ port });
 

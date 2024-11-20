@@ -1,3 +1,4 @@
+// 算法的实体类
 export class Algorithm {
   id: number;
   name: string;
@@ -8,6 +9,7 @@ export class Algorithm {
   permission: number;
   descrition: string;
 
+  //构造函数
   constructor(
     id: number,
     name: string,

@@ -3,6 +3,7 @@ create database dsv CHARACTER SET utf8;
 
 use dsv;
 
+-- 存储用户信息
 create table user (
 	account varchar(100) primary key,
 	pwd varchar(50),
@@ -12,6 +13,7 @@ create table user (
 	invitationCode varchar(100)
 );
 
+-- 存储项目信息
 create table project (
 	id int primary key auto_increment,
 	projectName varchar(20),
@@ -23,6 +25,7 @@ create table project (
 	descrition text
 ) auto_increment=10001;
 
+-- 存储视频信息
 create table video (
 	id int primary key auto_increment,
 	videoName varchar(20),
@@ -33,6 +36,7 @@ create table video (
 	descrition text
 ) auto_increment=10001;
 
+-- 存储算法信息
 create table algorithm (
 	id int primary key auto_increment,
 	algorithmName varchar(20),
@@ -44,6 +48,7 @@ create table algorithm (
 	descrition text
 ) auto_increment=10001;
 
+-- 存储用户间的关注关系
 create table follow (
 	account varchar(20),
 	followAccount varchar(20),

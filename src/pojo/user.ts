@@ -1,3 +1,4 @@
+// 用户的实体类
 export class User {
   account: string;
   pwd: string;

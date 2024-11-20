@@ -12,6 +12,16 @@ import {
   Obj,
 } from "../core";
 
+/*
+ *projectDao 数据访问模块，用于和数据库进行交互
+ *userService 用户服务模块，用于获取用户数据
+ *Project 项目实体类
+ *Subject 用于实现发布-订阅机制
+ *WebsocketHandler 定义了WebSocket处理函数的类型
+ *从core中导入的，设计项目操作的执行和历史记录管理
+ */
+
+//创建项目
 export async function createProject(
   account: string,
   name: string,
@@ -24,10 +34,12 @@ export async function createProject(
   return res;
 }
 
+//删除项目
 export async function removeProject(id: string) {
   return projectDao.deleteProject(id);
 }
 
+//搜索项目（用户账户和项目名称）
 export async function searchProject(account: string, name: string) {
   let ps = await projectDao.getProjectsByName(name, account);
   if (ps === null) {
@@ -42,6 +54,7 @@ export async function searchProject(account: string, name: string) {
   return res;
 }
 
+//获取项目的详细信息
 export async function getProjectInfo(id: string) {
   let p = await projectDao.getProjectById(id);
   if (p === null) {
@@ -59,6 +72,7 @@ export async function getProjectInfo(id: string) {
   return r;
 }
 
+//根据账号获得项目
 export async function getProjctByAccount(account: string, isSelf: boolean) {
   let ps = await projectDao.getProjectsByAccount(account, !isSelf);
   if (ps === null) {
@@ -73,21 +87,25 @@ export async function getProjctByAccount(account: string, isSelf: boolean) {
   return res;
 }
 
+//更新项目名称
 export async function updateProjectName(id: string, name: string) {
   let r = await projectDao.updateProject(id, ["projectName"], [name]);
   return r;
 }
 
+//更新项目权限
 export async function updateProjectPermission(id: string, permission: number) {
   let r = await projectDao.updateProject(id, ["permission"], [permission]);
   return r;
 }
 
+//更新项目描述
 export async function updateProjectDescrition(id: string, descrition: string) {
   let r = await projectDao.updateProject(id, ["descrition"], [descrition]);
   return r;
 }
 
+//更新项目快照
 export async function updateProjectSnapshot(id: string, snapshot: string) {
   let r = await projectDao.updateProject(
     id,
@@ -97,13 +115,16 @@ export async function updateProjectSnapshot(id: string, snapshot: string) {
   return r;
 }
 
+//信息类型定义
 type Info = {
   key: string;
   data: string;
 };
 
+//Subject订阅者名单，存储每个项目ID对应的订阅信息
 const subjectMap: { [key: string]: { n: number; s: Subject<Info> } } = {};
 
+//新增订阅
 function getSubject(id: string) {
   if (!subjectMap[id]) {
     subjectMap[id] = { n: 1, s: new Subject<Info>() };
@@ -113,6 +134,7 @@ function getSubject(id: string) {
   return subjectMap[id].s;
 }
 
+//取消订阅
 function closeSubject(id) {
   if (subjectMap[id]) {
     subjectMap[id].n--;
@@ -122,18 +144,22 @@ function closeSubject(id) {
   }
 }
 
+//处理与项目相关的WebSocket连接，实现实时协作功能，如新动作、撤销、重做等
 export const handleProjectWS: WebsocketHandler = async (ws, data, ready) => {
   let key: string;
   let id = data.id;
   let sub = getSubject(id);
+  //订阅Subject
   let s = sub.subscribe((info: Info) => {
     if (key !== info.key) {
       ws.send(info.data);
     }
   });
 
+  //添加协调
   await PC.addCorrdination(id);
 
+  //定义WebSocket消息处理器
   ws.handler = async function (str: string) {
     let data = JSON.parse(str);
     key = `${Date.now()}`;
@@ -142,6 +168,8 @@ export const handleProjectWS: WebsocketHandler = async (ws, data, ready) => {
       sub.next({ key: key, data: str });
     }
   };
+
+  //定义WebSocket关闭处理器
   ws.onClose = async function () {
     await PC.closeCorrdination(id);
     closeSubject(data.id);
@@ -150,6 +178,9 @@ export const handleProjectWS: WebsocketHandler = async (ws, data, ready) => {
   ready();
 };
 
+//项目协调管理（负责管理项目的快照、历史操作以及协调机制的启动和关闭，确保多个Websocket连接对同一项目的操作同步一致）
+
+//定义了协调消息的类型：新动作、撤销和重做
 export type ProjectCoordinationMessage =
   | {
       type: "newAction";
@@ -158,7 +189,9 @@ export type ProjectCoordinationMessage =
   | { type: "undo" }
   | { type: "redo" };
 
+//类定义
 class ProjectCoordination {
+  //projectMap的属性
   private projectMap: {
     [id: string]: {
       snapshot: Obj;
@@ -167,7 +200,9 @@ class ProjectCoordination {
     };
   } = {};
 
+  //启动项目的协调机制
   async addCorrdination(projectId: string) {
+    //检查projectMap是否已经存在ID
     if (this.projectMap.hasOwnProperty(projectId)) {
       this.projectMap[projectId].count++;
     } else {
@@ -185,6 +220,7 @@ class ProjectCoordination {
     }
   }
 
+  //处理来自WebSocket的新消息
   async newMessage(
     projectId: string,
     data: ProjectCoordinationMessage
@@ -205,6 +241,7 @@ class ProjectCoordination {
     }
   }
 
+  //关掉协同作业
   async closeCorrdination(projectId: string) {
     if (this.projectMap.hasOwnProperty(projectId)) {
       this.projectMap[projectId].count--;
@@ -223,6 +260,7 @@ class ProjectCoordination {
     }
   }
 
+  //根据名字获得项目的数据
   async getProjectData(projectId: string) {
     if (this.projectMap.hasOwnProperty(projectId)) {
       return {
@@ -235,4 +273,5 @@ class ProjectCoordination {
   }
 }
 
+//创建实例
 const PC = new ProjectCoordination();
