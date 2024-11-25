@@ -3,9 +3,12 @@ import * as userService from "./userService";
 import { Algorithm } from "../pojo";
 
 /*
- *algorithmDao
+ *algorithmDao 与数据库进行交互
+ *userService 获取用户信息
+ *Algorithm 引入实体类
  */
 
+//创建算法
 export async function createAlgorithm(
   account: string,
   name: string,
@@ -18,10 +21,12 @@ export async function createAlgorithm(
   return res;
 }
 
+//移除算法
 export async function removeAlgorithm(id: string) {
   return algorithmDao.deleteAlgorithm(id);
 }
 
+//获取算法
 export async function getAlgorithmInfo(id: string) {
   let p = await algorithmDao.getAlgorithmById(id);
   if (p === null) {
@@ -32,6 +37,7 @@ export async function getAlgorithmInfo(id: string) {
   return r;
 }
 
+//搜索算法
 export async function searchAlgorithm(account: string, name: string) {
   let ps = await algorithmDao.getAlgorithmsByName(name, account);
   if (ps === null) {
@@ -46,6 +52,7 @@ export async function searchAlgorithm(account: string, name: string) {
   return res;
 }
 
+//根据账号获取项目
 export async function getProjctByAccount(account: string, isSelf: boolean) {
   let ps = await algorithmDao.getAlgorithmsByAccount(account, !isSelf);
   if (ps === null) {
@@ -60,11 +67,13 @@ export async function getProjctByAccount(account: string, isSelf: boolean) {
   return res;
 }
 
+//更新算法名称
 export async function updateAlgorithmName(id: string, name: string) {
   let r = await algorithmDao.updateAlgorithm(id, ["algorithmName"], [name]);
   return r;
 }
 
+//更新算法描述
 export async function updateAlgorithmDescrition(
   id: string,
   descrition: number
@@ -73,6 +82,7 @@ export async function updateAlgorithmDescrition(
   return r;
 }
 
+//更新算法权限
 export async function updateAlgorithmPermission(
   id: string,
   permission: number
@@ -81,6 +91,7 @@ export async function updateAlgorithmPermission(
   return r;
 }
 
+//更新算法内容
 export async function updateAlgorithmContent(id: string, snapshot: string) {
   let r = await algorithmDao.updateAlgorithm(
     id,

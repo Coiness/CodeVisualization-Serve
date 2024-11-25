@@ -47,6 +47,7 @@ export function algorithmController(app) {
     }
   });
 
+  //移除算法
   app.post("/algorithm/remove", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
@@ -82,6 +83,7 @@ export function algorithmController(app) {
     }
   });
 
+  //重命名算法
   app.post("/algorithm/rename", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
@@ -118,6 +120,7 @@ export function algorithmController(app) {
     }
   });
 
+  //更新算法描述
   app.post("/algorithm/updateDescrition", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
@@ -157,6 +160,7 @@ export function algorithmController(app) {
     }
   });
 
+  //更新算法权限
   app.post("/algorithm/updatePermission", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
@@ -196,6 +200,7 @@ export function algorithmController(app) {
     }
   });
 
+  //保存算法内容
   app.post("/algorithm/save", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
@@ -232,6 +237,7 @@ export function algorithmController(app) {
     }
   });
 
+  //加载算法信息
   app.get("/algorithm/loadInfo", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
@@ -268,6 +274,7 @@ export function algorithmController(app) {
     res.sendl(resultUtil.success("获取成功", algorithm));
   });
 
+  //搜索算法
   app.get("/algorithm/search", async function (req, res) {
     // 获取参数
     let name = req.query.name;
@@ -286,6 +293,7 @@ export function algorithmController(app) {
     }
   });
 
+  //搜索包含当前用户的算法
   app.get("/algorithm/searchContainMine", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
@@ -310,6 +318,7 @@ export function algorithmController(app) {
     }
   });
 
+  //获取当前用户的算法
   app.get("/algorithm/mine", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
@@ -327,6 +336,7 @@ export function algorithmController(app) {
     }
   });
 
+  //按用户搜索算法
   app.get("/algorithm/searchByUser", async function (req, res) {
     // 获取参数
     let account = req.query.account;

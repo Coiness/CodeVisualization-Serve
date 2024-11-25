@@ -14,7 +14,7 @@ import { User } from "../pojo";
 import { checkInvitationCode } from "./invitationCodeService";
 import { check, sendEmailCheckCode } from "./emailCheckCodeService";
 
-const DefauleImg = "/image/get?fileName=Default";
+const DefaultImg = "/image/get?fileName=Default.jpg";
 
 const key = "60rzvvbj";
 const time = WEEK; // 有效时间
@@ -103,7 +103,7 @@ export async function register(
 
   pwd = md5(pwd);
   let token = createToken(account);
-  let u = new User(account, pwd, account, DefauleImg, token, invitationCode);
+  let u = new User(account, pwd, account, DefaultImg, token, invitationCode);
   let res = await addUser(u);
   if (res) {
     return { code: RegisterErrorCode.Success, user: u };

@@ -11,7 +11,10 @@ const openai = new OpenAI({
 async function main() {
   const completion = await openai.chat.completions.create({
     messages: [
-      { role: "system", content: "" },
+      {
+        role: "system",
+        content: "你是一只可爱的猫娘，请你在每一句话后面加一个喵",
+      },
       {
         role: "user",
         content: "你是谁",

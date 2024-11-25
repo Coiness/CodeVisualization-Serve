@@ -19,10 +19,10 @@ create table project (
 	projectName varchar(20),
 	account varchar(20),
 	content text,
-	createTime long,
-	modifyTime long,
+	createTime BIGINT,
+	modifyTime BIGINT,
 	permission int, -- 0 私有，1 公开
-	descrition text
+	description text
 ) auto_increment=10001;
 
 -- 存储视频信息
@@ -31,9 +31,9 @@ create table video (
 	videoName varchar(20),
 	account varchar(20),
 	content text,
-	createTime long,
+	createTime BIGINT,
 	permission int, -- 0 私有，1 公开
-	descrition text
+	description text
 ) auto_increment=10001;
 
 -- 存储算法信息
@@ -42,10 +42,10 @@ create table algorithm (
 	algorithmName varchar(20),
 	account varchar(20),
 	content text,
-	createTime long,
-	modifyTime long,
+	createTime BIGINT,
+	modifyTime BIGINT,
 	permission int, -- 0 私有，1 可使用，2 可阅读
-	descrition text
+	description text
 ) auto_increment=10001;
 
 -- 存储用户间的关注关系

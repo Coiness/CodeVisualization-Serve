@@ -9,7 +9,7 @@ import { getMimeType } from "../common";
  */
 
 //定义基础路径
-let basePath = path.resolve("./runTime/");
+let basePath = path.resolve(__dirname, "../../runTime/");
 
 //生成一个基于当前时间戳的唯一文件名
 function randomFileName() {
@@ -34,7 +34,7 @@ export async function uploadImage(file) {
 }
 
 export async function getImage(fileName, res) {
-  let target = path.resolve(basePath + fileName);
+  let target = path.resolve(basePath, "resource", fileName);
   let mimeType = getMimeType(fileName.split(".").pop());
   res.setHeader("Content-Type", mimeType + ";charset=utf-8");
   returnResources(target, res);

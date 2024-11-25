@@ -1,6 +1,12 @@
 import { getConnection, recovery } from "../common";
 import { Algorithm } from "../pojo";
 
+/*
+ *getConnection 用于获取数据库连接
+ *recovery 用于回收或释放数据库连接
+ *Algorithm 算法实体类
+ */
+
 function createAlgorithm(data) {
   return new Algorithm(
     data.id,
@@ -14,12 +20,16 @@ function createAlgorithm(data) {
   );
 }
 
+//根据算法名称和账户搜索
 export async function getAlgorithmsByName(
   name: string,
   account: string
 ): Promise<Algorithm[] | null> {
+  //获取数据库连接
   let conn = getConnection();
+  //构建sql查询语句
   let sql = `select * from algorithm where algorithmName like \'%${name}%\' and (permission > 0 or account = '${account}') order by createTime DESC`;
+  //执行查询，返回算法类型组或空
   let res: any[] | null = await new Promise(function (resolve, reject) {
     conn.query(sql, function (err, results, fields) {
       if (!err) {
@@ -36,6 +46,7 @@ export async function getAlgorithmsByName(
   return res.map(createAlgorithm);
 }
 
+//通过账号获取算法
 export async function getAlgorithmsByAccount(
   account: string,
   permission: boolean
@@ -61,6 +72,7 @@ export async function getAlgorithmsByAccount(
   return res.map(createAlgorithm);
 }
 
+//根据ID获得算法
 export async function getAlgorithmById(id: string): Promise<Algorithm | null> {
   let conn = getConnection();
   let sql = "select * from algorithm where id = ?";
@@ -81,6 +93,7 @@ export async function getAlgorithmById(id: string): Promise<Algorithm | null> {
   return createAlgorithm(res);
 }
 
+//更新算法属性
 export async function updateAlgorithm(
   id: string,
   attrs: string[],
@@ -107,6 +120,7 @@ export async function updateAlgorithm(
   return res;
 }
 
+//新增算法
 export async function addAlgorithm(
   algorithm: Algorithm
 ): Promise<string | boolean> {
@@ -134,6 +148,7 @@ export async function addAlgorithm(
   });
 }
 
+//删除算法
 export async function deleteAlgorithm(id: string): Promise<boolean> {
   let conn = getConnection();
   let sql = "delete from algorithm where id = ?";
