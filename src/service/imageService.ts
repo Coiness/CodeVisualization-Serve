@@ -9,7 +9,8 @@ import { getMimeType } from "../common";
  */
 
 //定义基础路径
-let basePath = path.resolve(__dirname, "../../runTime/");
+let basePath = path.resolve(__dirname, "../runTime/");
+console.log(basePath);
 
 //生成一个基于当前时间戳的唯一文件名
 function randomFileName() {
@@ -34,18 +35,26 @@ export async function uploadImage(file) {
 }
 
 export async function getImage(fileName, res) {
+  console.log("正在执行getImage");
   let target = path.resolve(basePath, "resource", fileName);
+  target = path.join(basePath, fileName);
+  console.log(basePath);
+  console.log(target);
   let mimeType = getMimeType(fileName.split(".").pop());
   res.setHeader("Content-Type", mimeType + ";charset=utf-8");
+  console.log(target); // /home/coiness/Project-代码视界/backend/runTime/resource/Default.jpg
+  console.log(mimeType); // image/jpeg
   returnResources(target, res);
 }
 
 function returnResources(path, res) {
+  console.log(path); // /home/coiness/Project-代码视界/backend/runTime/resource/Default.jpg
   fs.readFile(path, function (err, doc) {
     if (err == null) {
       res.send(doc);
     } else {
       console.log(err);
+      console.log("出错了");
     }
   });
 }
