@@ -3,26 +3,40 @@ import * as path from "path";
 import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
 import { openWebSocket } from "./common/websocket";
+import * as cors from "cors";
 // import fs from "fs";
 // import netUtil from "./utils/netUtil.js";
 // import constUtil from "./utils/constUtil.js";
 // import logUtil from "./utils/logUtil.js";
 
 let app = express();
+
+//cors跨域
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+//配置body-parser
 app.use(
   bodyParser.urlencoded({
     extended: true,
     limit: "100mb",
   })
-);
+); //url解析
 app.use(
   bodyParser.json({
     limit: "100mb",
   })
-);
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true, limit: "100mb" }));
+); //json解析
+app.use(cookieParser()); //cookie解析
+app.use(express.urlencoded({ extended: true, limit: "100mb" })); //url解析
 
+// 静态资源目录
 let staticUrl = path.resolve("webapp/");
 // let staticUrl = path.resolve("../Data-structure-visualization/build");
 
@@ -56,7 +70,7 @@ responseFilter.use(app);
 // 静态资源目录
 app.use(express.static(staticUrl));
 
-// 控制器
+// 导入并注册控制器
 import {
   userController,
   projectController,
@@ -78,6 +92,7 @@ imageController(app);
 // 端口
 const port = 12345;
 
+// 启动websocket连接
 openWebSocket(3001);
 app.listen(port);
 console.log(`local test  : http://localhost:${port}`);
