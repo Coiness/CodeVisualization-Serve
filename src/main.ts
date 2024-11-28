@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["*"],
     credentials: true,
   })
 );
@@ -28,6 +28,7 @@ app.use(
     limit: "100mb",
   })
 ); //url解析
+
 app.use(
   bodyParser.json({
     limit: "100mb",

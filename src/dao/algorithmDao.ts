@@ -52,6 +52,7 @@ export async function getAlgorithmsByAccount(
   permission: boolean
 ): Promise<Algorithm[] | null> {
   let conn = getConnection();
+  console.log("getAlgorithmsByAccount");
   let sql = `select * from algorithm where account = ?${
     permission ? " and permission > 0" : ""
   } order by createTime DESC`;
@@ -74,6 +75,7 @@ export async function getAlgorithmsByAccount(
 
 //根据ID获得算法
 export async function getAlgorithmById(id: string): Promise<Algorithm | null> {
+  console.log("getAlgorithmById");
   let conn = getConnection();
   let sql = "select * from algorithm where id = ?";
   let arr = [id];

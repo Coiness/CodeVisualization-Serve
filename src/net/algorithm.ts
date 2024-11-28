@@ -299,6 +299,7 @@ export function algorithmController(app) {
     let token = req.headers.token;
     let account = req.cookies.account;
     let name = req.query.name;
+    console.log("searchContainMine", token, account, name);
 
     if (!checkUser(account, token, res)) {
       return;
@@ -320,14 +321,16 @@ export function algorithmController(app) {
 
   //获取当前用户的算法
   app.get("/algorithm/mine", async function (req, res) {
-    // 获取参数
+    //获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
 
+    //检查用户是否登录
     if (!checkUser(account, token, res)) {
       return;
     }
 
+    //获取当前用户的算法
     let algorithms = await algorithmsService.getProjctByAccount(account, true);
     if (algorithms !== null) {
       res.sendl(resultUtil.success("获取成功", { algorithms }));
