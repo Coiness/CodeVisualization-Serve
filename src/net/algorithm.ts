@@ -299,7 +299,16 @@ export function algorithmController(app) {
     let token = req.headers.token;
     let account = req.cookies.account;
     let name = req.query.name;
-    console.log("searchContainMine", token, account, name);
+
+    console.log(
+      "searchContainMine",
+      "token:",
+      token,
+      "account:",
+      account,
+      "name:",
+      name
+    );
 
     if (!checkUser(account, token, res)) {
       return;

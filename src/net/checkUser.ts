@@ -4,6 +4,7 @@ import { checkToken } from "../service";
 
 //检查对象的登录信息是否存在
 export function checkUser(account, token, res) {
+  console.log("checkUser", account, token);
   if (!nil({ account })) {
     res.sendl(resultUtil.noLogin());
     return false;

@@ -106,6 +106,7 @@ export function userController(app) {
   app.get("/user/getUserInfo", async function (req, res) {
     // 获取参数
     let account = req.query.account;
+    console.log("getUserInfo", account);
 
     // 获取数据
     let info = await userService.getUserInfo(account);
