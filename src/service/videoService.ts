@@ -6,10 +6,10 @@ export async function createVideo(
   account: string,
   name: string,
   snapshot: string,
-  descrition: string
+  description: string
 ) {
   let time = Date.now();
-  let p = new Video(0, name, account, snapshot, time, 0, descrition);
+  let p = new Video(0, name, account, snapshot, time, 0, description);
   let res = await videoDao.addVideo(p);
   return res;
 }
@@ -61,8 +61,8 @@ export async function updateVideoName(id: string, name: string) {
   return r;
 }
 
-export async function updateVideoDescrition(id: string, descrition: number) {
-  let r = await videoDao.updateVideo(id, ["descrition"], [descrition]);
+export async function updateVideoDescription(id: string, description: number) {
+  let r = await videoDao.updateVideo(id, ["description"], [description]);
   return r;
 }
 

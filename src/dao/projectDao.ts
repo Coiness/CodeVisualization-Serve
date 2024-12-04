@@ -10,7 +10,7 @@ function createProject(data) {
     data.createTime,
     data.modifyTime,
     data.permission,
-    data.descrition
+    data.description
   );
 }
 
@@ -118,7 +118,7 @@ export async function addProject(project: Project): Promise<string | false> {
     project.createTime,
     project.modifyTime,
     project.permission,
-    project.descrition,
+    project.description,
   ];
   return new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {

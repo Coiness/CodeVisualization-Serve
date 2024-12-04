@@ -9,7 +9,7 @@ function createVideo(data) {
     data.content,
     data.createTime,
     data.permission,
-    data.descrition
+    data.description
   );
 }
 
@@ -116,7 +116,7 @@ export async function addVideo(video: Video): Promise<string | boolean> {
     video.content,
     video.createTime,
     video.permission,
-    video.descrition,
+    video.description,
   ];
   return new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {

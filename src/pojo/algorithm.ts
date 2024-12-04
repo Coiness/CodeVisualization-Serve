@@ -7,7 +7,7 @@ export class Algorithm {
   createTime: number;
   modifyTime: number;
   permission: number;
-  descrition: string;
+  description: string;
 
   //构造函数
   constructor(
@@ -18,7 +18,7 @@ export class Algorithm {
     createTime: number,
     modifyTime: number,
     permission: number,
-    descrition: string
+    description: string
   ) {
     this.id = id;
     this.name = name;
@@ -27,6 +27,6 @@ export class Algorithm {
     this.createTime = createTime;
     this.modifyTime = modifyTime;
     this.permission = permission;
-    this.descrition = descrition;
+    this.description = description;
   }
 }

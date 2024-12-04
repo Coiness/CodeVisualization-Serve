@@ -13,10 +13,10 @@ export async function createAlgorithm(
   account: string,
   name: string,
   snapshot: string,
-  descrition: string
+  description: string
 ) {
   let time = Date.now();
-  let p = new Algorithm(0, name, account, snapshot, time, time, 0, descrition);
+  let p = new Algorithm(0, name, account, snapshot, time, time, 0, description);
   let res = await algorithmDao.addAlgorithm(p);
   return res;
 }
@@ -74,11 +74,16 @@ export async function updateAlgorithmName(id: string, name: string) {
 }
 
 //更新算法描述
-export async function updateAlgorithmDescrition(
+export async function updateAlgorithmDescription(
   id: string,
-  descrition: number
+  description: string
 ) {
-  let r = await algorithmDao.updateAlgorithm(id, ["descrition"], [descrition]);
+  console.log("updateAlgorithmDescription", id, description);
+  let r = await algorithmDao.updateAlgorithm(
+    id,
+    ["description"],
+    [description]
+  );
   return r;
 }
 

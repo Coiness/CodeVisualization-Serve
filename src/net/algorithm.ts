@@ -18,7 +18,7 @@ export function algorithmController(app) {
     let account = req.cookies.account;
     let name = req.body.name;
     let content = req.body.content;
-    let descrition = req.body.descrition;
+    let description = req.body.description;
 
     // 判断用户是否登录
     if (!checkUser(account, token, res)) {
@@ -26,7 +26,7 @@ export function algorithmController(app) {
     }
 
     // 判断参数是否完整
-    if (!nil({ name, content, descrition })) {
+    if (!nil({ name, content, description })) {
       res.sendl(resultUtil.paramsError());
       return;
     }
@@ -36,7 +36,7 @@ export function algorithmController(app) {
       account,
       name,
       content,
-      descrition
+      description
     );
 
     // 返回结果
@@ -121,19 +121,19 @@ export function algorithmController(app) {
   });
 
   //更新算法描述
-  app.post("/algorithm/updateDescrition", async function (req, res) {
+  app.post("/algorithm/updateDescription", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
     let id = req.body.id;
-    let descrition = req.body.descrition;
+    let description = req.body.description;
 
     if (!checkUser(account, token, res)) {
       return;
     }
 
     // 判断参数是否完整
-    if (!nil({ id, descrition })) {
+    if (!nil({ id, description })) {
       res.sendl(resultUtil.paramsError());
       return;
     }
@@ -148,9 +148,9 @@ export function algorithmController(app) {
       return;
     }
 
-    let flag = await algorithmsService.updateAlgorithmDescrition(
+    let flag = await algorithmsService.updateAlgorithmDescription(
       id,
-      descrition
+      description
     );
 
     if (flag) {

@@ -7,7 +7,7 @@ export class Project {
   createTime: number;
   modifyTime: number;
   permission: number;
-  descrition: string;
+  description: string;
 
   constructor(
     id: number,
@@ -17,7 +17,7 @@ export class Project {
     createTime: number,
     modifyTime: number,
     permission: number,
-    descrition: string
+    description: string
   ) {
     this.id = id;
     this.name = name;
@@ -26,6 +26,6 @@ export class Project {
     this.createTime = createTime;
     this.modifyTime = modifyTime;
     this.permission = permission;
-    this.descrition = descrition;
+    this.description = description;
   }
 }

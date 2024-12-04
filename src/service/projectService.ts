@@ -26,10 +26,10 @@ export async function createProject(
   account: string,
   name: string,
   snapshot: string,
-  descrition: string
+  description: string
 ) {
   let time = Date.now();
-  let p = new Project(0, name, account, snapshot, time, time, 0, descrition);
+  let p = new Project(0, name, account, snapshot, time, time, 0, description);
   let res = await projectDao.addProject(p);
   return res;
 }
@@ -100,8 +100,11 @@ export async function updateProjectPermission(id: string, permission: number) {
 }
 
 //更新项目描述
-export async function updateProjectDescrition(id: string, descrition: string) {
-  let r = await projectDao.updateProject(id, ["descrition"], [descrition]);
+export async function updateProjectDescription(
+  id: string,
+  description: string
+) {
+  let r = await projectDao.updateProject(id, ["description"], [description]);
   return r;
 }
 

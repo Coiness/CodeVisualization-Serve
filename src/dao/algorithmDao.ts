@@ -16,7 +16,7 @@ function createAlgorithm(data) {
     data.createTime,
     data.modifyTime,
     data.permission,
-    data.descrition
+    data.description
   );
 }
 
@@ -136,7 +136,7 @@ export async function addAlgorithm(
     algorithm.createTime,
     algorithm.modifyTime,
     algorithm.permission,
-    algorithm.descrition,
+    algorithm.description,
   ];
   return new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {

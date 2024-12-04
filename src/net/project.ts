@@ -10,14 +10,14 @@ export function projectController(app) {
     let account = req.cookies.account;
     let name = req.body.name;
     let snapshot = req.body.snapshot;
-    let descrition = req.body.descrition;
+    let description = req.body.description;
 
     if (!checkUser(account, token, res)) {
       return;
     }
 
     // 判断参数是否完整
-    if (!nil({ name, snapshot, descrition })) {
+    if (!nil({ name, snapshot, description })) {
       res.sendl(resultUtil.paramsError());
       return;
     }
@@ -26,7 +26,7 @@ export function projectController(app) {
       account,
       name,
       snapshot,
-      descrition
+      description
     );
 
     // 返回结果
@@ -144,19 +144,19 @@ export function projectController(app) {
     }
   });
 
-  app.post("/project/updateDescrition", async function (req, res) {
+  app.post("/project/updateDescription", async function (req, res) {
     // 获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
     let id = req.body.id;
-    let descrition = req.body.descrition;
+    let description = req.body.description;
 
     if (!checkUser(account, token, res)) {
       return;
     }
 
     // 判断参数是否完整
-    if (!nil({ id, descrition })) {
+    if (!nil({ id, description })) {
       res.sendl(resultUtil.paramsError());
       return;
     }
@@ -171,7 +171,7 @@ export function projectController(app) {
       return;
     }
 
-    let flag = await projectService.updateProjectDescrition(id, descrition);
+    let flag = await projectService.updateProjectDescription(id, description);
 
     if (flag) {
       res.sendl(resultUtil.success("修改成功"));
