@@ -20,7 +20,7 @@ async function main() {
         content: "你是谁",
       },
     ],
-    model: "deepseek-coder",
+    model: "deepseek-chat",
     temperature: 0,
   });
 
