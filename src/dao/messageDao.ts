@@ -7,11 +7,6 @@ import { getConnection, recovery } from "../common";
  *Message 聊天信息实体类
  */
 
-interface PaginationParams {
-  limit: number; // 限制返回的记录数
-  offset: number; // 偏移量
-}
-
 function createMessage(data) {
   return new Message(
     data.id,
@@ -22,10 +17,7 @@ function createMessage(data) {
   );
 }
 
-export async function getMessageByChatId(
-  chatID: number,
-  pagination: PaginationParams
-): Promise<Message[]> {
+export async function getMessageByChatId(chatID: number): Promise<Message[]> {
   let conn;
   let res: any[] = [];
 
@@ -41,19 +33,15 @@ export async function getMessageByChatId(
     `;
 
     let res: any[] | null = await new Promise(function (resolve, reject) {
-      conn.query(
-        sql,
-        [chatID, pagination.limit, pagination.offset],
-        function (err, results, fields) {
-          if (!err) {
-            resolve(results);
-          } else {
-            console.log("查询错误:", err);
-            resolve([]);
-          }
-          recovery(conn);
+      conn.query(sql, [chatID], function (err, results, fields) {
+        if (!err) {
+          resolve(results);
+        } else {
+          console.log("查询错误:", err);
+          resolve([]);
         }
-      );
+        recovery(conn);
+      });
     });
   } catch (e) {
     console.log("错误:", e);

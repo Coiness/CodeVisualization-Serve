@@ -27,11 +27,8 @@ export async function addMessage(
  * @param pagination 分页参数（limit 和 offset）
  * @returns 消息对象数组
  */
-export async function getMessagesByChatId(
-  chatID: number,
-  pagination: { limit: number; offset: number }
-): Promise<Message[]> {
-  let res = await messageDao.getMessageByChatId(chatID, pagination);
+export async function getMessagesByChatId(chatID: number): Promise<Message[]> {
+  let res = await messageDao.getMessageByChatId(chatID);
   return res;
 }
 

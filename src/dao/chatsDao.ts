@@ -150,9 +150,8 @@ export async function updateChatById(chat: Chats): Promise<boolean> {
   return success;
 }
 
-export async function addChat(chat: Chats): Promise<boolean> {
+export async function addChat(chat: Chats): Promise<number | boolean> {
   let conn: any = null;
-  let success = false;
 
   try {
     // 获取数据库连接
@@ -184,19 +183,17 @@ export async function addChat(chat: Chats): Promise<boolean> {
 
     if (result && result.insertId) {
       chat.id = result.insertId; // 将生成的 id 赋值给 chat 实例
-      success = true;
+      return chat.id;
     } else {
-      success = false;
+      return false;
     }
   } catch (error) {
-    console.error("添加聊天记录失败:", error);
-    success = false;
+    console.error("添加对话失败:", error);
+    return false;
   } finally {
     // 确保连接被回收
     if (conn) {
       await recovery(conn);
     }
   }
-
-  return success;
 }
