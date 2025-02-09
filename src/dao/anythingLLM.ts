@@ -1,6 +1,7 @@
 // request.ts
 
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { anythingLLM_API_KEY } from "../service/configs";
 
 const instance = axios.create({
   baseURL: "http://localhost:3001/api/v1/workspace/dsv/thread", // 替换为你的后端地址
@@ -42,7 +43,7 @@ async function addChat(account: string) {
     {
       headers: {
         accept: "application/json",
-        Authorization: "Bearer WQHE9HA-NCZMNBM-PN69BA8-PAWKFD3",
+        Authorization: `Bearer ${anythingLLM_API_KEY}`,
         "Content-Type": "application/json",
       },
     },
@@ -58,7 +59,7 @@ async function deleteChat(id: string) {
   const response = await postRequest(`/${id}`, {
     headers: {
       accept: "*/*",
-      Authorization: "Bearer WQHE9HA-NCZMNBM-PN69BA8-PAWKFD3",
+      Authorization: `Bearer ${anythingLLM_API_KEY}`,
     },
   });
 }
@@ -67,7 +68,7 @@ async function getMessages(id: string) {
   const response = await getRequest(`/${id}/chats`, {
     headers: {
       accept: "application/json",
-      Authorization: "Bearer WQHE9HA-NCZMNBM-PN69BA8-PAWKFD3",
+      Authorization: `Bearer ${anythingLLM_API_KEY}`,
     },
   });
 }

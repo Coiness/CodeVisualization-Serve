@@ -1,4 +1,5 @@
 import fetch, { Response as FetchResponse } from "node-fetch";
+import { anythingLLM_API_KEY } from "../service/configs";
 
 export interface Attachment {
   name: string;
@@ -24,7 +25,7 @@ export async function callExternalStreamApi(
     headers: {
       accept: "text/event-stream",
       "Content-Type": "application/json",
-      Authorization: `Bearer WQHE9HA-NCZMNBM-PN69BA8-PAWKFD3`,
+      Authorization: `Bearer ${anythingLLM_API_KEY} `,
     },
     body: JSON.stringify(streamRequest),
   });
