@@ -8,16 +8,10 @@ import { getConnection, recovery } from "../common";
  */
 
 function createChats(data): Chats {
-  return new Chats(
-    data.account,
-    data.title,
-    data.createdTime,
-    data.updatedTime,
-    data.id
-  );
+  return new Chats(data.account, data.title, data.updatedTime, data.id);
 }
 
-export async function deleteChatById(id: number): Promise<boolean> {
+export async function deleteChatById(id: string): Promise<boolean> {
   let conn;
   let success = false;
 
@@ -132,7 +126,7 @@ export async function updateChatById(chat: Chats): Promise<boolean> {
             resolve(false);
           }
         } else {
-          console.log("更新错误:", err);
+          console.log("数据库更新错误:", err);
           resolve(false);
         }
       });
@@ -150,7 +144,8 @@ export async function updateChatById(chat: Chats): Promise<boolean> {
   return success;
 }
 
-export async function addChat(chat: Chats): Promise<number | boolean> {
+// 添加对话接受一个 Chats 实例作为参数，并返回一个 Promise 对象
+export async function addChat(chat: Chats): Promise<boolean> {
   let conn: any = null;
 
   try {
@@ -159,15 +154,10 @@ export async function addChat(chat: Chats): Promise<number | boolean> {
 
     // 插入语句，使用参数化查询防止SQL注入
     const sql = `
-      INSERT INTO chats (account, title, createdTime, updatedTime)
+      INSERT INTO chats (account, title, updatedTime)
       VALUES (?, ?, ?, ?)
     `;
-    const params = [
-      chat.account,
-      chat.title,
-      chat.createdTime,
-      chat.updatedTime,
-    ];
+    const params = [chat.account, chat.title, chat.updatedTime];
 
     // 执行查询并处理结果
     const result = await new Promise<any>((resolve, reject) => {
@@ -180,13 +170,6 @@ export async function addChat(chat: Chats): Promise<number | boolean> {
         }
       });
     });
-
-    if (result && result.insertId) {
-      chat.id = result.insertId; // 将生成的 id 赋值给 chat 实例
-      return chat.id;
-    } else {
-      return false;
-    }
   } catch (error) {
     console.error("添加对话失败:", error);
     return false;

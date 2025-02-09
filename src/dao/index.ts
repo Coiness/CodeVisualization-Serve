@@ -5,3 +5,4 @@ export * from "./videoDao";
 export * from "./algorithmDao";
 export * from "./chatsDao";
 export * from "./messageDao";
+export * from "./aiDao";

@@ -5,6 +5,19 @@ import { checkUser } from "./checkUser";
 import { Chats } from "../pojo";
 
 export function chatsController(app) {
+  //获取对话列表
+  app.get("chat/list", async function (req, res) {
+    let token = req.headers.token;
+    let account = req.cookies.account;
+
+    //判断用户是否登录
+    if (!checkUser(account, token, res)) {
+      return;
+    }
+
+    //获取对话列表
+  });
+
   //创建聊天
   // 获取参数 => 判断用户是否登录 => 判断参数是否完整 => 开始创建 => 返回结果
   app.post("/chats/create", async function (req, res) {

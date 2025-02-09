@@ -1,43 +1,32 @@
-// messageService.ts
+import { Response } from "express";
+import { callExternalStreamApi } from "../dao";
 
-import { Message } from "../pojo/message";
-import * as messageDao from "../dao/messageDao";
+export async function handleStreamMessage(
+  content: string,
+  account: string,
+  token: string,
+  res: Response
+) {
+  // 调用 DAO 层调用下游服务，获取流式响应
+  const externalResponse = await callExternalStreamApi(content, account, token);
+  if (!externalResponse.body) {
+    res.end();
+    return;
+  }
 
-/**
- * 添加新的消息记录
- * @param chatID 聊天的唯一标识
- * @param role 消息角色（如用户或机器人）
- * @param content 消息内容
- * @returns 插入是否成功
- */
-export async function addMessage(
-  chatID: number,
-  role: string,
-  content: string
-): Promise<boolean> {
-  let createdTime = Date.now();
-  let message = new Message(chatID, role, content, createdTime);
-  let res = await messageDao.addMessage(message);
-  return res;
-}
+  // externalResponse.body 是 Node.js 的 ReadableStream
+  externalResponse.body.on("data", (chunk: Buffer) => {
+    const text = chunk.toString(); // 将 Buffer 转换为字符串
+    // 写入前端数据，格式与前端解析逻辑保持一致
+    res.write(`data: ${text}\n\n`);
+  });
 
-/**
- * 根据聊天ID获取消息记录
- * @param chatID 聊天的唯一标识
- * @param pagination 分页参数（limit 和 offset）
- * @returns 消息对象数组
- */
-export async function getMessagesByChatId(chatID: number): Promise<Message[]> {
-  let res = await messageDao.getMessageByChatId(chatID);
-  return res;
-}
+  externalResponse.body.on("end", () => {
+    res.end();
+  });
 
-/**
- * 根据聊天ID删除所有相关的消息记录
- * @param chatID 聊天的唯一标识
- * @returns 删除是否成功
- */
-export async function deleteMessages(chatID: number): Promise<boolean> {
-  let res = await messageDao.deleteMessagesByChatId(chatID);
-  return res;
+  externalResponse.body.on("error", (err: any) => {
+    console.error("Stream error:", err);
+    res.end();
+  });
 }

@@ -1,139 +1,31 @@
-import { Message } from "../pojo/message";
-import { getConnection, recovery } from "../common";
+import fetch, { Response as FetchResponse } from "node-fetch";
 
-/*
- *getConnection 用于获取数据库连接
- *recovery 用于回收或释放数据库连接
- *Message 聊天信息实体类
- */
-
-function createMessage(data) {
-  return new Message(
-    data.id,
-    data.chatID,
-    data.role,
-    data.content,
-    data.createdTime
-  );
+export interface Attachment {
+  name: string;
+  mime: string;
+  contentString: string;
 }
 
-export async function getMessageByChatId(chatID: number): Promise<Message[]> {
-  let conn;
-  let res: any[] = [];
-
-  try {
-    conn = getConnection();
-
-    let sql = `
-      SELECT id, chatId, role, content, createdTime
-      FROM messages
-      WHERE chatId = ?
-      ORDER BY createdTime DESC
-      LIMIT ? OFFSET ?
-    `;
-
-    let res: any[] | null = await new Promise(function (resolve, reject) {
-      conn.query(sql, [chatID], function (err, results, fields) {
-        if (!err) {
-          resolve(results);
-        } else {
-          console.log("查询错误:", err);
-          resolve([]);
-        }
-        recovery(conn);
-      });
-    });
-  } catch (e) {
-    console.log("错误:", e);
-    res = [];
-  } finally {
-    if (conn) {
-      await recovery(conn);
-    }
-
-    return res.map(createMessage);
-  }
+export interface StreamRequest {
+  message: string;
+  mode: "query" | "chat";
+  userId: number;
+  attachments: Attachment[];
 }
 
-export async function addMessage(message: Message): Promise<boolean> {
-  let conn;
-  let success = false;
+export async function callExternalStreamApi(
+  streamRequest: StreamRequest,
+  slug: string
+): Promise<FetchResponse> {
+  const AI_STREAM_URL = `http://localhost:3001/api/v1/workspace/dsv/thread/${slug}/stream-chat`;
 
-  try {
-    // 获取数据库连接
-    conn = await getConnection();
-
-    // 插入语句，使用参数化查询防止SQL注入
-    const sql = `
-      INSERT INTO messages (chatId, role, content, createdTime)
-      VALUES (?, ?, ?, ?)
-    `;
-    const params = [
-      message.chatID,
-      message.role,
-      message.content,
-      message.createdTime,
-    ];
-
-    // 执行查询并处理结果
-    success = await new Promise<boolean>((resolve, reject) => {
-      conn.query(sql, params, (err, results, fields) => {
-        if (!err) {
-          resolve(true);
-        } else {
-          console.log("插入错误:", err);
-          resolve(false);
-        }
-      });
-    });
-  } catch (error) {
-    console.error("添加消息失败:", error);
-    success = false;
-  } finally {
-    // 确保连接被回收
-    if (conn) {
-      await recovery(conn);
-    }
-  }
-
-  return success;
-}
-
-export async function deleteMessagesByChatId(chatID: number): Promise<boolean> {
-  let conn;
-  let success = false;
-
-  try {
-    // 获取数据库连接
-    conn = await getConnection();
-
-    // 删除语句，使用参数化查询防止SQL注入
-    const sql = `
-      DELETE FROM messages
-      WHERE chatId = ?
-    `;
-    const params = [chatID];
-
-    // 执行查询并处理结果
-    success = await new Promise<boolean>((resolve, reject) => {
-      conn.query(sql, params, (err, results, fields) => {
-        if (!err) {
-          resolve(true);
-        } else {
-          console.log("删除错误:", err);
-          resolve(false);
-        }
-      });
-    });
-  } catch (error) {
-    console.error("删除消息失败:", error);
-    success = false;
-  } finally {
-    // 确保连接被回收
-    if (conn) {
-      await recovery(conn);
-    }
-  }
-
-  return success;
+  return fetch(AI_STREAM_URL, {
+    method: "POST",
+    headers: {
+      accept: "text/event-stream",
+      "Content-Type": "application/json",
+      Authorization: `Bearer WQHE9HA-NCZMNBM-PN69BA8-PAWKFD3`,
+    },
+    body: JSON.stringify(streamRequest),
+  });
 }

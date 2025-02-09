@@ -23,6 +23,9 @@ app.use(
       "cookie",
       "account",
       "name",
+      "thread",
+      "message",
+      "history",
     ],
     credentials: true,
   })
@@ -101,7 +104,7 @@ imageController(app);
 const port = 12345;
 
 // 启动websocket连接
-openWebSocket(3001);
+openWebSocket(3002);
 app.listen(port);
 console.log(`local test  : http://localhost:${port}`);
 // console.log("server test : http://159.75.249.227:8848");
