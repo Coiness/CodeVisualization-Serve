@@ -88,12 +88,14 @@ import {
   videoController,
   algorithmController,
   imageController,
+  chatsController,
 } from "./net";
 userController(app);
 projectController(app);
 videoController(app);
 algorithmController(app);
 imageController(app);
+chatsController(app);
 
 // import projectController from "./controller/projectController.js";
 // import otherController from "./controller/otherController.js";

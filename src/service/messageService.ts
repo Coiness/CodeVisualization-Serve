@@ -1,14 +1,27 @@
 import { Response } from "express";
 import { callExternalStreamApi } from "../dao";
 
+export interface Attachment {
+  name: string;
+  mime: string;
+  contentString: string;
+}
+
+export interface StreamRequest {
+  message: string;
+  mode: "query" | "chat";
+  userId: number;
+  attachments: Attachment[];
+}
+
 export async function handleStreamMessage(
-  content: string,
+  content: StreamRequest,
   account: string,
   token: string,
   res: Response
 ) {
   // 调用 DAO 层调用下游服务，获取流式响应
-  const externalResponse = await callExternalStreamApi(content, account, token);
+  const externalResponse = await callExternalStreamApi(content, account);
   if (!externalResponse.body) {
     res.end();
     return;

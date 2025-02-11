@@ -36,8 +36,7 @@ export async function deleteRequest<T = any>(
   return response.data;
 }
 
-async function addChat(account: string) {
-  const id = account + Date.now();
+export async function addChat(account: string, id: string) {
   const response = await postRequest(
     "/new",
     {
@@ -53,9 +52,10 @@ async function addChat(account: string) {
       slug: id,
     }
   );
+  return response;
 }
 
-async function deleteChat(id: string) {
+export async function deleteChat(id: string) {
   const response = await postRequest(`/${id}`, {
     headers: {
       accept: "*/*",
@@ -64,7 +64,7 @@ async function deleteChat(id: string) {
   });
 }
 
-async function getMessages(id: string) {
+export async function getMessages(id: string) {
   const response = await getRequest(`/${id}/chats`, {
     headers: {
       accept: "application/json",

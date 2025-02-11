@@ -2,12 +2,12 @@ export class Chats {
   id?: string;
   account: string;
   title: string;
-  updatedTime: number;
+  updatedTime: string;
 
   constructor(
     account: string,
     title: string,
-    updatedTime: number,
+    updatedTime: string,
     id?: string
   ) {
     this.id = id;

@@ -54,3 +54,21 @@ create table follow (
 	followAccount varchar(20),
 	primary key(account, followAccount)
 );
+
+/*
+interface Chat{
+	account:string;
+	title:string;
+	updateTime:string;
+	id:string;
+
+}
+*/
+
+-- 存储用户的聊天列表
+create table chats (
+  id VARCHAR(255) NOT NULL PRIMARY KEY,
+  account VARCHAR(255) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  updatedTime VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

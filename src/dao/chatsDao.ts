@@ -7,8 +7,59 @@ import { getConnection, recovery } from "../common";
  *chats 算法实体类
  */
 
+/*
+interface Chats {
+  account: string;
+  title: string;
+  updatedTime: string;
+  id: string;
+  }
+ */
+
 function createChats(data): Chats {
   return new Chats(data.account, data.title, data.updatedTime, data.id);
+}
+
+export async function getChatsByAccount(account: string): Promise<Chats[]> {
+  let conn: any = null;
+  let chats: Chats[] = [];
+
+  try {
+    // 获取数据库连接
+    conn = await getConnection();
+
+    // 查询语句，使用参数化查询防止SQL注入
+    const sql = `
+      SELECT id, account, title, updatedTime
+      FROM chats
+      WHERE account = ?
+    `;
+    const params = [account];
+
+    // 执行查询并处理结果
+    chats = await new Promise<Chats[]>((resolve, reject) => {
+      conn.query(sql, params, (err, results, fields) => {
+        if (!err) {
+          // 将查询结果转换为 Chats 实例数组
+          const chatsList = results.map(createChats);
+          resolve(chatsList);
+        } else {
+          console.log("查询错误:", err);
+          resolve([]); // 查询出错时返回空数组
+        }
+      });
+    });
+  } catch (error) {
+    console.error("根据 account 查询 Chats 失败:", error);
+    chats = []; // 出错时返回空数组
+  } finally {
+    // 确保连接被回收
+    if (conn) {
+      await recovery(conn);
+    }
+  }
+
+  return chats;
 }
 
 export async function deleteChatById(id: string): Promise<boolean> {
@@ -54,48 +105,6 @@ export async function deleteChatById(id: string): Promise<boolean> {
   }
 
   return success;
-}
-
-export async function getChatsByAccount(account: string): Promise<Chats[]> {
-  let conn: any = null;
-  let chats: Chats[] = [];
-
-  try {
-    // 获取数据库连接
-    conn = await getConnection();
-
-    // 查询语句，使用参数化查询防止SQL注入
-    const sql = `
-      SELECT id, account, title, createdTime, updatedTime
-      FROM chats
-      WHERE account = ?
-    `;
-    const params = [account];
-
-    // 执行查询并处理结果
-    chats = await new Promise<Chats[]>((resolve, reject) => {
-      conn.query(sql, params, (err, results, fields) => {
-        if (!err) {
-          // 将查询结果转换为 Chats 实例数组
-          const chatsList = results.map(createChats);
-          resolve(chatsList);
-        } else {
-          console.log("查询错误:", err);
-          resolve([]); // 查询出错时返回空数组
-        }
-      });
-    });
-  } catch (error) {
-    console.error("根据 account 查询 Chats 失败:", error);
-    chats = []; // 出错时返回空数组
-  } finally {
-    // 确保连接被回收
-    if (conn) {
-      await recovery(conn);
-    }
-  }
-
-  return chats;
 }
 
 export async function updateChatById(chat: Chats): Promise<boolean> {
@@ -154,10 +163,10 @@ export async function addChat(chat: Chats): Promise<boolean> {
 
     // 插入语句，使用参数化查询防止SQL注入
     const sql = `
-      INSERT INTO chats (account, title, updatedTime)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO chats (account, title, updatedTime, id)
+      VALUES (?, ?, ?,?)
     `;
-    const params = [chat.account, chat.title, chat.updatedTime];
+    const params = [chat.account, chat.title, chat.updatedTime, chat.id];
 
     // 执行查询并处理结果
     const result = await new Promise<any>((resolve, reject) => {

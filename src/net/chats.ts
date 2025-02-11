@@ -5,41 +5,25 @@ import { checkUser } from "./checkUser";
 import { Chats } from "../pojo";
 
 export function chatsController(app) {
-  //获取对话列表
-  app.get("chat/list", async function (req, res) {
-    let token = req.headers.token;
-    let account = req.cookies.account;
-
-    //判断用户是否登录
-    if (!checkUser(account, token, res)) {
-      return;
-    }
-
-    //获取对话列表
-  });
-
   //创建聊天
   // 获取参数 => 判断用户是否登录 => 判断参数是否完整 => 开始创建 => 返回结果
-  app.post("/chats/create", async function (req, res) {
+  app.post("/chat/add", async function (req, res) {
     //获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
-    let title = req.body.title;
 
+    console.log("调用app.post(/chat/add)");
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
       return;
     }
-
+    console.log("调用app.post(/chat/add)已登录");
     //判断参数是否完整
-    if (nil({ title })) {
-      res.send(resultUtil.paramsError());
-      return;
-    }
 
     //开始创建
-    let id: number | boolean = await chatsService.createChats(account, title);
+    let id: string | boolean = await chatsService.createChat(account);
 
+    console.log(id);
     //返回结果
     if (id) {
       res.send(resultUtil.success("对话创建成功", { id }));
@@ -50,7 +34,7 @@ export function chatsController(app) {
 
   //更新对话title
   //获取参数 => 判断用户是否登录 => 判断参数是否完整 => 开始更新 => 返回结果
-  app.post("/chats/update", async function (req, res) {
+  app.post("/chat/rename", async function (req, res) {
     //获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
@@ -69,7 +53,7 @@ export function chatsController(app) {
     }
 
     //开始更新
-    let result = await chatsService.updateChats(id, title);
+    let result = await chatsService.updateChat(id, title);
 
     //返回结果
     if (result) {
@@ -81,7 +65,7 @@ export function chatsController(app) {
 
   //删除聊天
   //获取参数 => 判断用户是否登录 => 判断参数是否完整 => 开始删除 => 返回结果
-  app.post("/chats/remove", async function (req, res) {
+  app.post("/chat/delete", async function (req, res) {
     //获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
@@ -99,7 +83,7 @@ export function chatsController(app) {
     }
 
     //开始删除
-    let result = await chatsService.deleteChats(id);
+    let result = await chatsService.deleteChat(id);
 
     //返回结果
     if (result) {
@@ -111,7 +95,7 @@ export function chatsController(app) {
 
   //获取用户聊天列表
   //获取参数 => 判断用户是否登录 => 判断参数是否完整 => 开始获取 => 返回结果
-  app.post("/chats/list", async function (req, res) {
+  app.post("/chat/list", async function (req, res) {
     //获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
@@ -128,7 +112,7 @@ export function chatsController(app) {
     }
 
     //开始获取
-    let chats: Chats[] = await chatsService.getChatsByAccount(account);
+    let chats: Chats[] = await chatsService.getChatByAccount(account);
 
     //返回结果
     if (chats) {
