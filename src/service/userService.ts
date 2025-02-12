@@ -131,7 +131,9 @@ export async function login(account, pwd): Promise<User | null> {
 }
 
 export async function getUserInfo(account) {
+  console.log("getUserInfo,account:", account);
   let user = await getUserByAccount(account);
+  //todo:查找哪里调用了这个函数
   return { username: user.name, img: user.img };
 }
 

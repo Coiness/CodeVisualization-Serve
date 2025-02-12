@@ -13,9 +13,15 @@ export async function deleteChat(id: string): Promise<boolean> {
   return res;
 }
 
-export async function updateChat(id: string, title: string): Promise<boolean> {
+export async function updateChat(
+  account: string,
+  id: string,
+  title: string
+): Promise<boolean> {
+  console.log("调用updateChat(Service层)");
   let updatedTime = new Date().toISOString();
-  let chat = new Chats("", title, updatedTime, id);
+  let chat = new Chats(account, title, updatedTime, id);
+  console.log("chat", chat);
   let res = await chatsDao.updateChatById(chat);
   return res;
 }
@@ -30,6 +36,7 @@ export async function createChat(account: string) {
   if (res_llm) {
     let p = new Chats(account, "新对话", updatedTime, slug);
     let res = await chatsDao.addChat(p);
+    console.log(`调用chatsDao.addChat()返回结果 ${res}`);
     if (res) {
       console.log(slug);
       return slug;

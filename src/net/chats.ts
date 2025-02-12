@@ -38,7 +38,7 @@ export function chatsController(app) {
     //获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
-    let title = req.body.title;
+    let title = req.body.name;
     let id = req.body.id;
 
     //判断用户是否登录
@@ -47,13 +47,25 @@ export function chatsController(app) {
     }
 
     //判断参数是否完整
-    if (nil({ title, id })) {
+    /*if (nil({ title, id })) {
+      console.log("参数不完整", title, id);
       res.send(resultUtil.paramsError());
       return;
-    }
+    }*/
 
+    console.log(
+      "调用app.post(/chat/rename)",
+      "title:",
+      req.body.name,
+      "id:",
+      req.body.id,
+      "account:",
+      req.cookies.account,
+      "req.body:",
+      req.body
+    );
     //开始更新
-    let result = await chatsService.updateChat(id, title);
+    let result = await chatsService.updateChat(account, id, title);
 
     //返回结果
     if (result) {
@@ -70,17 +82,15 @@ export function chatsController(app) {
     let token = req.headers.token;
     let account = req.cookies.account;
     let id = req.body.id;
+    console.log("调用app.post(/chat/delete)", req.body);
 
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
       return;
     }
 
-    //判断参数是否完整
-    if (nil({ id })) {
-      res.send(resultUtil.paramsError());
-      return;
-    }
+    console.log("调用app.post(/chat/delete)已登录");
+    console.log("id:", id);
 
     //开始删除
     let result = await chatsService.deleteChat(id);
@@ -95,19 +105,14 @@ export function chatsController(app) {
 
   //获取用户聊天列表
   //获取参数 => 判断用户是否登录 => 判断参数是否完整 => 开始获取 => 返回结果
-  app.post("/chat/list", async function (req, res) {
+  app.get("/chat/list", async function (req, res) {
+    console.log("调用/chat/list");
     //获取参数
     let token = req.headers.token;
     let account = req.cookies.account;
 
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
-      return;
-    }
-
-    //判断参数是否完整
-    if (nil({ account })) {
-      res.send(resultUtil.paramsError());
       return;
     }
 

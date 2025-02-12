@@ -71,4 +71,4 @@ create table chats (
   account VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
   updatedTime VARCHAR(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) 

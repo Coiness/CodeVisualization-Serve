@@ -164,7 +164,7 @@ export async function addChat(chat: Chats): Promise<boolean> {
     // 插入语句，使用参数化查询防止SQL注入
     const sql = `
       INSERT INTO chats (account, title, updatedTime, id)
-      VALUES (?, ?, ?,?)
+      VALUES (?, ?, ?, ?)
     `;
     const params = [chat.account, chat.title, chat.updatedTime, chat.id];
 
@@ -172,6 +172,7 @@ export async function addChat(chat: Chats): Promise<boolean> {
     const result = await new Promise<any>((resolve, reject) => {
       conn.query(sql, params, (err, results, fields) => {
         if (!err) {
+          console.log("插入成功:", results);
           resolve(results);
         } else {
           console.log("插入错误:", err);
@@ -179,6 +180,9 @@ export async function addChat(chat: Chats): Promise<boolean> {
         }
       });
     });
+
+    // 加入判断，根据结果返回 true 或 false
+    return result ? true : false;
   } catch (error) {
     console.error("添加对话失败:", error);
     return false;
