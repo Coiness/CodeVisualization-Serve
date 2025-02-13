@@ -53,17 +53,6 @@ export function chatsController(app) {
       return;
     }*/
 
-    console.log(
-      "调用app.post(/chat/rename)",
-      "title:",
-      req.body.name,
-      "id:",
-      req.body.id,
-      "account:",
-      req.cookies.account,
-      "req.body:",
-      req.body
-    );
     //开始更新
     let result = await chatsService.updateChat(account, id, title);
 
@@ -82,14 +71,12 @@ export function chatsController(app) {
     let token = req.headers.token;
     let account = req.cookies.account;
     let id = req.body.id;
-    console.log("调用app.post(/chat/delete)", req.body);
 
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
       return;
     }
 
-    console.log("调用app.post(/chat/delete)已登录");
     console.log("id:", id);
 
     //开始删除

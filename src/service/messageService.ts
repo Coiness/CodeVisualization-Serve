@@ -1,5 +1,6 @@
 import { Response } from "express";
 import { callExternalStreamApi } from "../dao";
+import { getMessages } from "../dao/anythingLLM";
 
 export interface Attachment {
   name: string;
@@ -9,19 +10,18 @@ export interface Attachment {
 
 export interface StreamRequest {
   message: string;
-  mode: "query" | "chat";
+  mode: "chat";
   userId: number;
   attachments: Attachment[];
 }
 
 export async function handleStreamMessage(
   content: StreamRequest,
-  account: string,
-  token: string,
+  slug: string,
   res: Response
 ) {
   // 调用 DAO 层调用下游服务，获取流式响应
-  const externalResponse = await callExternalStreamApi(content, account);
+  const externalResponse = await callExternalStreamApi(content, slug);
   if (!externalResponse.body) {
     res.end();
     return;
@@ -42,4 +42,14 @@ export async function handleStreamMessage(
     console.error("Stream error:", err);
     res.end();
   });
+}
+
+export interface MessageInfo {
+  chatId: number;
+  content: string;
+  role: "user" | "assistant";
+}
+
+export async function GetMessages(slug) {
+  return await getMessages(slug);
 }

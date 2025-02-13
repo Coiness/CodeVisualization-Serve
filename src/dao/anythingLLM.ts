@@ -4,7 +4,8 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { anythingLLM_API_KEY } from "../service/configs";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3001/api/v1/workspace/dsv/thread", // 替换为你的后端地址
+  baseURL:
+    "http://localhost:3001/api/v1/workspace/c405523d-4450-4155-9fd2-1ad7d104c4f0/thread", // 替换为你的后端地址
   timeout: 5000,
 });
 
@@ -55,7 +56,7 @@ export async function addChat(account: string, id: string) {
   return response;
 }
 
-export async function deleteChat(id: string) {
+export async function delChat(id: string) {
   const response = await postRequest(`/${id}`, {
     headers: {
       accept: "*/*",
@@ -64,11 +65,29 @@ export async function deleteChat(id: string) {
   });
 }
 
-export async function getMessages(id: string) {
-  const response = await getRequest(`/${id}/chats`, {
+export interface MessageInfo {
+  chatId: number;
+  content: string;
+  role: "user" | "assistant";
+}
+
+export async function getMessages(slug: string): Promise<MessageInfo[]> {
+  const response = await getRequest(`/${slug}/chats`, {
     headers: {
       accept: "application/json",
       Authorization: `Bearer ${anythingLLM_API_KEY}`,
     },
   });
+  if (!Array.isArray(response)) {
+    throw new Error("返回数据不是数组");
+  }
+
+  const messages: MessageInfo[] = response.map((item) => {
+    return {
+      chatId: item.chatId,
+      content: item.content,
+      role: item.role,
+    };
+  });
+  return messages;
 }

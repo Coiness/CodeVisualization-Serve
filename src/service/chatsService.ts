@@ -1,6 +1,6 @@
 import * as chatsDao from "../dao/chatsDao";
 import { Chats } from "../pojo";
-import { addChat } from "../dao/anythingLLM";
+import { addChat, delChat } from "../dao/anythingLLM";
 import e = require("express");
 
 export async function getChatByAccount(account: string): Promise<Chats[]> {
@@ -9,6 +9,7 @@ export async function getChatByAccount(account: string): Promise<Chats[]> {
 }
 
 export async function deleteChat(id: string): Promise<boolean> {
+  let res_llm = await delChat(id);
   let res = await chatsDao.deleteChatById(id);
   return res;
 }

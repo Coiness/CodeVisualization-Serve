@@ -9,7 +9,7 @@ export interface Attachment {
 
 export interface StreamRequest {
   message: string;
-  mode: "query" | "chat";
+  mode: "chat";
   userId: number;
   attachments: Attachment[];
 }
@@ -18,7 +18,7 @@ export async function callExternalStreamApi(
   streamRequest: StreamRequest,
   slug: string
 ): Promise<FetchResponse> {
-  const AI_STREAM_URL = `http://localhost:3001/api/v1/workspace/dsv/thread/${slug}/stream-chat`;
+  const AI_STREAM_URL = `http://localhost:3001/api/v1/workspace/80fe1b62-a5fc-47f0-97ec-574ec1aaba86/thread/${slug}/stream-chat`;
 
   return fetch(AI_STREAM_URL, {
     method: "POST",

@@ -89,6 +89,7 @@ import {
   algorithmController,
   imageController,
   chatsController,
+  messageController,
 } from "./net";
 userController(app);
 projectController(app);
@@ -96,6 +97,7 @@ videoController(app);
 algorithmController(app);
 imageController(app);
 chatsController(app);
+messageController(app);
 
 // import projectController from "./controller/projectController.js";
 // import otherController from "./controller/otherController.js";
