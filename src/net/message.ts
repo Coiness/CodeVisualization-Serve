@@ -10,13 +10,9 @@ export function messageController(app) {
 
     if (!content || !token || !slug) {
       res.send(resultUtil.reject("缺少参数"));
-      // 设置流式响应头
-      res.setHeader("Content-Type", "text/event-stream");
-      res.setHeader("Cache-Control", "no-cache");
-      res.setHeader("Connection", "keep-alive");
 
       try {
-        await messageService.handleStreamMessage(content, slug, res);
+        await messageService.sendMessageService(content, slug, res);
       } catch (error) {
         console.error("Message send error:", error);
         res.end();
