@@ -31,9 +31,12 @@ export async function updateChat(
 export async function createChat(account: string) {
   console.log("调用createChat");
   let updatedTime = new Date().toISOString();
-  let slug = account + updatedTime.toString();
+  console.log("ISO时间转换为string", updatedTime.toString());
+  let slug = account + updatedTime;
   let res_llm = await addChat(account, slug);
   console.log(res_llm);
+  slug = res_llm.thread.slug;
+  console.log(slug);
   if (res_llm) {
     let p = new Chats(account, "新对话", updatedTime, slug);
     let res = await chatsDao.addChat(p);
