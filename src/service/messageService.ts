@@ -63,5 +63,6 @@ export interface MessageInfo {
 }
 
 export async function GetMessages(slug) {
+  console.log("Service层调用GetMessage slug = ", slug);
   return await getMessages(slug);
 }

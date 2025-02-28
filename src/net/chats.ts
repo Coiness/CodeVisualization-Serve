@@ -12,13 +12,10 @@ export function chatsController(app) {
     let token = req.headers.token;
     let account = req.cookies.account;
 
-    console.log("调用app.post(/chat/add)");
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
       return;
     }
-    console.log("调用app.post(/chat/add)已登录");
-    //判断参数是否完整
 
     //开始创建
     let id: string | boolean = await chatsService.createChat(account);
@@ -94,6 +91,7 @@ export function chatsController(app) {
   //获取参数 => 判断用户是否登录 => 判断参数是否完整 => 开始获取 => 返回结果
   app.get("/chat/list", async function (req, res) {
     console.log("调用/chat/list");
+    console.log("req.headers:", req.headers);
     //获取参数
     let token = req.headers.token;
     let account = req.cookies.account;

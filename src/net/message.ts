@@ -33,7 +33,11 @@ export function messageController(app) {
   });
 
   app.get("/message/get", async (req: Request, res: Response) => {
+    console.log("朕的slug捏?");
+    console.log("req.body :", req.body);
+    console.log("req.headers :", req.headers);
     const slug = req.body.slug;
+    console.log("Net层 调用MessageGet slug = ", slug);
     const messages = await messageService.GetMessages(slug as string);
     if (messages) {
       res.send(resultUtil.success("获取消息成功", messages));

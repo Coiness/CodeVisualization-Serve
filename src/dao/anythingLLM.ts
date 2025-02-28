@@ -2,6 +2,7 @@
 
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { anythingLLM_API_KEY } from "../service/configs";
+import { response } from "express";
 
 const instance = axios.create({
   baseURL:
@@ -14,7 +15,11 @@ export async function getRequest<T = any>(
   url: string,
   config?: AxiosRequestConfig
 ): Promise<T> {
+  console.log("URL:", url);
+  console.log("Config:", config);
   const response: AxiosResponse<T> = await instance.get(url, config);
+  console.log("Response type:", typeof response);
+  console.log("Response.data type:", typeof response.data);
   return response.data;
 }
 
@@ -72,17 +77,25 @@ export interface MessageInfo {
 }
 
 export async function getMessages(slug: string): Promise<MessageInfo[]> {
-  const response = await getRequest(`/${slug}/chats`, {
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${anythingLLM_API_KEY}`,
-    },
-  });
-  if (!Array.isArray(response)) {
+  console.log("Dao层调用GetMessage slug = ", slug);
+  let response;
+  try {
+    response = await getRequest(`/${slug}/chats`, {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${anythingLLM_API_KEY}`,
+      },
+    });
+  } catch (error) {
+    console.log("Dao层调用出错", error.message || error);
+    throw new Error("获取消息失败");
+  }
+  console.log("GetMessage的ServerResponse", response);
+  if (!Array.isArray(response.history)) {
     throw new Error("返回数据不是数组");
   }
 
-  const messages: MessageInfo[] = response.map((item) => {
+  const messages: MessageInfo[] = response.history.map((item) => {
     return {
       chatId: item.chatId,
       content: item.content,
