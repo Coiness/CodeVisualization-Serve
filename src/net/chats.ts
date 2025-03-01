@@ -14,7 +14,7 @@ export function chatsController(app) {
 
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
-      return;
+      res.send(resultUtil.reject("缺少参数"));
     }
 
     //开始创建
@@ -40,7 +40,7 @@ export function chatsController(app) {
 
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
-      return;
+      res.send(resultUtil.reject("缺少参数"));
     }
 
     //判断参数是否完整
@@ -71,7 +71,7 @@ export function chatsController(app) {
 
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
-      return;
+      res.send(resultUtil.reject("缺少参数"));
     }
 
     console.log("id:", id);
@@ -98,7 +98,7 @@ export function chatsController(app) {
 
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
-      return;
+      res.send(resultUtil.reject("缺少参数"));
     }
 
     //开始获取

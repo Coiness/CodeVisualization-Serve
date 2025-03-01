@@ -26,6 +26,7 @@ app.use(
       "thread",
       "message",
       "history",
+      "slug",
     ],
     credentials: true,
   })

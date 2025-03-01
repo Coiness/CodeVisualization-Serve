@@ -78,6 +78,10 @@ export interface MessageInfo {
 
 export async function getMessages(slug: string): Promise<MessageInfo[]> {
   console.log("Dao层调用GetMessage slug = ", slug);
+  if (slug == null || slug == "") {
+    throw new Error("slug为空");
+  }
+
   let response;
   try {
     response = await getRequest(`/${slug}/chats`, {
