@@ -1,5 +1,5 @@
 import { sign } from "crypto";
-import { anythingLLM_API_KEY } from "../service/configs";
+import { anythingLLM_API_KEY ,workspaceID} from "../service/configs";
 import fetch, { Response as FetchResponse } from "node-fetch";
 
 // 创建会话控制映射表
@@ -28,7 +28,7 @@ export async function callUpstreamSse(
   }
 
   console.log("callUpstreamSse");
-  const url = `http://localhost:3001/api/v1/workspace/c405523d-4450-4155-9fd2-1ad7d104c4f0/thread/${slug}/stream-chat`;
+  const url = `http://localhost:3001/api/v1/workspace/${workspaceID}/thread/${slug}/stream-chat`;
   try {
     return fetch(url, {
       method: "POST",

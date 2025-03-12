@@ -107,6 +107,7 @@ export async function deleteChatById(id: string): Promise<boolean> {
   return success;
 }
 
+// 更改chat名字用
 export async function updateChatById(chat: Chats): Promise<boolean> {
   let conn: any = null;
   let success = false;
@@ -152,6 +153,50 @@ export async function updateChatById(chat: Chats): Promise<boolean> {
 
   return success;
 }
+
+// 发送消息用
+export async function updateChatById2(id:string,updatedTime:string): Promise<boolean> {
+  let conn: any = null;
+  let success = false;
+
+  try{
+    conn = await getConnection();
+
+    const sql = `
+      UPDATE chats
+      SET updatedTime = ?
+      WHERE id = ?
+    `;
+    const params = [updatedTime, id];
+
+    success = await new Promise<boolean>((resolve, reject) => {
+      conn.query(sql, params, (err, results, fields) => {
+        if(!err){
+          if(results.affectedRows > 0){
+            resolve(true);
+          }else{
+            console.log(`未找到id为 ${id} 的聊天记录或内容未发生变化。`);
+            resolve(false);
+          }
+        }else{
+          console.log("数据库更新错误:", err);
+          resolve(false);
+        }
+      });
+    });
+  }catch(error){
+    console.error("更新聊天记录失败:", error);
+    success = false;
+  }finally{
+    if(conn){
+      await recovery(conn);
+    }
+  }
+
+  return success;
+  
+}
+
 
 // 添加对话接受一个 Chats 实例作为参数，并返回一个 Promise 对象
 export async function addChat(chat: Chats): Promise<boolean> {

@@ -1,12 +1,14 @@
+import{workspaceID,anythingLLM_API_KEY} from "./src/service/configs.ts";
+
 export async function callUpstreamSse() {
   const url =
-    "http://localhost:3001/api/v1/workspace/c405523d-4450-4155-9fd2-1ad7d104c4f0/thread/atest0214/stream-chat";
+    `http://localhost:3001/api/v1/workspace/${workspaceID}/thread/atest0214/stream-chat`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       accept: "text/event-stream",
-      Authorization: "Bearer WQHE9HA-NCZMNBM-PN69BA8-PAWKFD3",
+      Authorization: `Bearer ${anythingLLM_API_KEY}`,
     },
     body: JSON.stringify({
       message: "你是谁",

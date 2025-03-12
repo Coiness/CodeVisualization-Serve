@@ -19,6 +19,18 @@ export const invitationCodeConfig = {
 export const DEEPSEEK_API_KEY = "";
 
 ```
+runtime文件夹，resource里面，有Default.jpg
+修改MySQL用户认证方式
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+FLUSH PRIVILEGES;
+EXIT;
+sudo systemctl restart mysql
+
+### 环境要求
+
+必须先安装anythingLLM，在本地允许，端口3001，可自行修改端口。
+
 
 ### 运行项目
 

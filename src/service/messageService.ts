@@ -3,6 +3,7 @@ import { callUpstreamSse } from "../dao";
 import type { Response as FetchResponse } from "node-fetch";
 import { getMessages } from "../dao/anythingLLM";
 import { terminateStream } from "../dao";
+import { updateChat2 } from "./chatsService";
 
 /*
 export async function sendMessageService(
@@ -102,6 +103,8 @@ export async function sendMessageService(
     }
 
     const decoder = new TextDecoder();
+
+    
 
     upstreamResponse.body.on("data", (chunk) => {
       try {

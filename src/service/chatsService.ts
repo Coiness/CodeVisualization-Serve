@@ -27,7 +27,16 @@ export async function updateChat(
   return res;
 }
 
-//Todo:接入LLM
+export async function updateChat2(
+  account: string,
+  id: string,
+): Promise<boolean> {
+  console.log("调用updateChat(Service层)");
+  let updatedTime = new Date().toISOString();
+  let res = await chatsDao.updateChatById2(id, updatedTime);
+  return res;
+}
+
 export async function createChat(account: string) {
   console.log("调用createChat");
   let updatedTime = new Date().toISOString();

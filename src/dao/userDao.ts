@@ -39,6 +39,9 @@ export async function getUserByAccount(account: string): Promise<User | null> {
   let arr = [account];
   let res = await new Promise(function (resolve) {
     conn.query(sql, arr, function (err, results, fields) {
+      if(err){
+        console.log("SQL出错",err);
+      }
       if (!err && results.length > 0) {
         resolve(results[0]);
       } else {
@@ -115,6 +118,7 @@ export async function addUser(user: User): Promise<boolean> {
     user.token,
     user.invitationCode,
   ];
+  console.log(para);
   let res: boolean = await new Promise(function (resolve) {
     conn.query(sql, para, function (err, rows) {
       if (!err && rows.affectedRows > 0) {
@@ -125,5 +129,6 @@ export async function addUser(user: User): Promise<boolean> {
       recovery(conn);
     });
   });
+  console.log(res);
   return res;
 }

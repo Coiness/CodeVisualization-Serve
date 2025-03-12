@@ -36,6 +36,7 @@ export function userController(app) {
     let pwd = req.body.pwd;
     let checkCode = req.body.checkCode;
     let invitationCode = req.body.invitationCode;
+    console.log("register", account, pwd, checkCode, invitationCode);
 
     // 判断参数是否完整
     if (!nil({ account, pwd })) {

@@ -82,22 +82,26 @@ export async function register(
 
   // 检查邮箱是否已被注册过
   if (user !== null) {
+    console.log("account exist");
     return { code: RegisterErrorCode.AccountExist };
   }
 
   // 检查邮箱验证码是否正确
   if (!check(account, checkCode)) {
+    console.log("check code error");
     return { code: RegisterErrorCode.CheckCodeError };
   }
 
   // 检查邀请码是否合法
   if (!checkInvitationCode(invitationCode)) {
+    console.log("invitation code invalid");
     return { code: RegisterErrorCode.InvitationCodeInvalid };
   }
 
   // 检查邀请码是否已经被使用
   user = await getUserByInvitationCode(invitationCode);
   if (user !== null) {
+    console.log("invitation code used");
     return { code: RegisterErrorCode.InvitationCodeUsed };
   }
 

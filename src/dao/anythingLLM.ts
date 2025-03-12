@@ -2,11 +2,12 @@
 
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { anythingLLM_API_KEY } from "../service/configs";
+import { workspaceID } from "../service/configs";
 import { response } from "express";
 
 const instance = axios.create({
   baseURL:
-    "http://localhost:3001/api/v1/workspace/c405523d-4450-4155-9fd2-1ad7d104c4f0/thread", // 替换为你的后端地址
+    `http://localhost:3001/api/v1/workspace/${workspaceID}/thread`, // 替换为你的后端地址
   timeout: 5000,
 });
 

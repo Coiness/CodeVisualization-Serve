@@ -1,15 +1,19 @@
 import { Router, Request, Response } from "express";
 import * as messageService from "../service/messageService";
 import resultUtil from "./resultUtil";
+import { updateChat2 } from "../service/chatsService";
 
 export function messageController(app) {
   app.post("/message/send", async (req: Request, res: Response) => {
     console.log("message send调用");
+    
     const content = req.body.content;
     const account = req.body.account as string;
     const slug = req.body.slug as string;
+
+
     if (!content || !account || !slug) {
-      console.log("缺少参数");
+      console.log("缺少参数,content:", content, "account:", account, "slug:", slug);
       res.send(resultUtil.reject("缺少参数"));
 
       return;
@@ -18,6 +22,8 @@ export function messageController(app) {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
+
+    updateChat2(account, slug);
 
     console.log("message send net");
     if (!content || !account || !slug) {
