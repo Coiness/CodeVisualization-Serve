@@ -23,6 +23,7 @@ function createChats(data): Chats {
 export async function getChatsByAccount(account: string): Promise<Chats[]> {
   let conn: any = null;
   let chats: Chats[] = [];
+  console.log("DAO层调用getChatsByAccount");
 
   try {
     // 获取数据库连接

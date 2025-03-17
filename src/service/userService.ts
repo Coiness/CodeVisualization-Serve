@@ -35,14 +35,17 @@ function createToken(account: string) {
  * @param account
  * @param token
  */
+
 export function checkToken(account: string, token: string): boolean {
   let [d, t] = token.split(TokenSeparator);
-  let date = parseInt(d);
+  /*
   if (Date.now() - date > time) {
+    console.log("token timeout");
     return false;
-  }
+  }*/
   let nt = md5(`${account}${key}${d}`);
   if (t !== nt) {
+    console.log("token error");
     return false;
   }
 

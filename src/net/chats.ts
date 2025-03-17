@@ -98,16 +98,21 @@ export function chatsController(app) {
 
     //判断用户是否登录
     if (!checkUser(account, token, res)) {
+      console.log("缺少参数");
       res.send(resultUtil.reject("缺少参数"));
+      return;
     }
 
     //开始获取
+    console.log("开始获取");
     let chats: Chats[] = await chatsService.getChatByAccount(account);
 
     //返回结果
     if (chats) {
+      console.log("chats获取成功")
       res.send(resultUtil.success("获取成功", chats));
     } else {
+      console.log("chats获取失败")
       res.send(resultUtil.reject("获取失败"));
     }
   });

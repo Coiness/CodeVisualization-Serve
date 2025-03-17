@@ -67,6 +67,7 @@ export async function sendMessageService(
 ) {
   // 添加响应状态跟踪
   let isResponseEnded = false;
+  updateChat2("assistant", slug);
 
   // 安全写入函数
   const safeWrite = (data: string) => {

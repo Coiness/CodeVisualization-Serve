@@ -4,6 +4,7 @@ import { addChat, delChat } from "../dao/anythingLLM";
 import e = require("express");
 
 export async function getChatByAccount(account: string): Promise<Chats[]> {
+  console.log("Service调用getChatByAccount");
   let res = await chatsDao.getChatsByAccount(account);
   return res;
 }
